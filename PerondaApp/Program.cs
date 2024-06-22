@@ -3,18 +3,18 @@ using PerondaApp.Entities;
 using PerondaApp.Repositories;
 using PerondaApp.Repositories.Extensions;
 
-var itemAdded = new ItemAdded(EmployeeAdded);
+var itemAdded = new ItemAdded<Employee>(EmployeeAdded); // delegat generyczny
+
 var employeeRepository = new SqlRepository<Employee>(new PerondaAppDbContext());
 AddEmployees(employeeRepository);
 //AddManagers(employeeRepository);
-Console.WriteLine($"\n   View all managers and employee :\n");
+//Console.WriteLine($"\n   View all managers and employee :\n");
 WriteAllToConsole(employeeRepository);
 GetEmployeeById(employeeRepository);
 
-static void EmployeeAdded(object item) // tę metodę chcemy przekazać jako callback - nazwę metody podamy jako parametr w delegacie
+static void EmployeeAdded(Employee item) // tę metodę chcemy przekazać jako callback - nazwę metody podamy jako parametr w delegacie
 {
-    var employee = (Employee)item; // to jest zrzutowany parametr objekt, który jest pracownikiem
-    Console.WriteLine($"{employee.FirstName} added");
+    Console.WriteLine($"{item.FirstName} added");
 }
 
 //var businessPartnerRepository = new SqlRepository<BusinessPartner>(new PerondaAppDbContext());
