@@ -3,9 +3,9 @@ using PerondaApp.Entities;
 using PerondaApp.Repositories;
 using PerondaApp.Repositories.Extensions;
 
-var itemAdded = new ItemAdded<Employee>(EmployeeAdded); // delegat generyczny
+var itemAdded = new Action<Employee>(EmployeeAdded); // delegat generyczny
 
-var employeeRepository = new SqlRepository<Employee>(new PerondaAppDbContext());
+var employeeRepository = new SqlRepository<Employee>(new PerondaAppDbContext(), itemAdded);
 AddEmployees(employeeRepository);
 //AddManagers(employeeRepository);
 //Console.WriteLine($"\n   View all managers and employee :\n");
