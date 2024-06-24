@@ -1,14 +1,18 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PerondaApp;
+using PerondaApp.DataProviders;
 using PerondaApp.Entities;
 using PerondaApp.Repositories;
 
 var services = new ServiceCollection();
 services.AddSingleton<IApp, App>();
 services.AddSingleton<IRepository<Employee>, ListRepository<Employee>>();
-services.AddSingleton<IApp, App>();
-services.AddSingleton<IApp, App>();
-services.AddSingleton<IApp, App>();
+services.AddSingleton<IRepository<Tile>, ListRepository<Tile>>();
+services.AddSingleton<ITilesProvider, TilesProvider>();
+
+//services.AddSingleton<IApp, App>();
+//services.AddSingleton<IApp, App>();
+//services.AddSingleton<IApp, App>();
 
 
 var serviceProvider = services.BuildServiceProvider();
