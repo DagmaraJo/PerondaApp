@@ -1,4 +1,4 @@
-﻿namespace PerondaApp.Entities
+﻿namespace PerondaApp.Data.Entities
 {
     public class Employee : EntityBase
     {
@@ -13,6 +13,6 @@
 
         public string? FirstName { get; set; }
 
-        public override string ToString() => ($"Employee ID: {Id}, Firstname: {FirstName}");
+        public override string ToString() => $"Employee ID: {Id}, Firstname: {FirstName}";
     }
 }

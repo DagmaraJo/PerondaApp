@@ -1,6 +1,8 @@
-﻿namespace PerondaApp.Repositories
+﻿namespace PerondaApp.Data.Repositories
 {
     using Entities;
+    using PerondaApp.Data.Entities;
+
     public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
         protected readonly List<T> _items = new();

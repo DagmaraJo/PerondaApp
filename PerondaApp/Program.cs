@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PerondaApp;
-using PerondaApp.DataProviders;
-using PerondaApp.Entities;
-using PerondaApp.Repositories;
+using PerondaApp.Components.DataProviders;
+using PerondaApp.Data.Entities;
+using PerondaApp.Data.Repositories;
 
 var services = new ServiceCollection();
 services.AddSingleton<IApp, App>();

@@ -1,8 +1,8 @@
 ﻿namespace PerondaApp;
 
-using PerondaApp.DataProviders;
-using PerondaApp.Entities;
-using PerondaApp.Repositories;
+using PerondaApp.Components.DataProviders;
+using PerondaApp.Data.Entities;
+using PerondaApp.Data.Repositories;
 
 public class App : IApp
 {
@@ -52,7 +52,9 @@ public class App : IApp
             _tilesRepository.Add(item);
         }
 
-        foreach (var item in _tilesProvider.OrderByName()) // Run()
+        Console.WriteLine();
+        Console.WriteLine("GetUniqueTileColors()");
+        foreach (var item in _tilesProvider.GetUniqueTileColors())  // Run()
         {
             Console.WriteLine(item);
         }
@@ -62,25 +64,53 @@ public class App : IApp
         Console.WriteLine(_tilesProvider.GetMinimumPriceOfAllTiles());
 
         Console.WriteLine();
-        Console.WriteLine("AnonymusClass()");
-        Console.WriteLine(_tilesProvider.AnonymusClass());
-
-        Console.WriteLine();
-        Console.WriteLine("WhereStartsWith C");
-        foreach (var item in _tilesProvider.WhereStartsWith("C")) // Run()
+        Console.WriteLine("GetSpecificColumns()");
+        foreach (var item in _tilesProvider.GetSpecificColumns())
         {
             Console.WriteLine(item);
         }
 
         Console.WriteLine();
-        Console.WriteLine("WhereStartsWithAndCostIsGreaterThan C / ");
+        Console.WriteLine("AnonymusClassInString()");
+        Console.WriteLine(_tilesProvider.AnonymusClassInString());
+
+        Console.WriteLine();
+        Console.WriteLine("OrderByName()");
+        foreach (var item in _tilesProvider.OrderByName())
+        {
+            Console.WriteLine(item);
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("OrderByNameDescending()");
+        foreach (var item in _tilesProvider.OrderByNameDescending())
+        {
+            Console.WriteLine(item);
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("WhereStartsWith : C");
+        foreach (var item in _tilesProvider.WhereStartsWith("C"))
+        {
+            Console.WriteLine(item);
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("WhereStartsWithAndCostIsGreaterThan : C , cost > 140");
         foreach (var item in _tilesProvider.WhereStartsWithAndCostIsGreaterThan("C", 140))
         {
             Console.WriteLine(item);
         }
 
         Console.WriteLine();
-        Console.WriteLine("TakeTiles 4");
+        Console.WriteLine("WhereColorIs : gray");
+        foreach (var item in _tilesProvider.WhereColorIs("Gray"))
+        {
+            Console.WriteLine(item);
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("TakeTiles : 4");
         foreach (var tile in _tilesProvider.TakeTiles(4))
         {
             Console.WriteLine(tile);
@@ -88,21 +118,42 @@ public class App : IApp
 
         Console.WriteLine();
         Console.WriteLine("TakeTilesRange");
-        foreach (var tile in _tilesProvider.TakeTilesRange(2..3))
+        foreach (var tile in _tilesProvider.TakeTilesRange(3..7))
         {
             Console.WriteLine(tile);
         }
 
         Console.WriteLine();
-        Console.WriteLine("Skip 6");
-        foreach (var item in _tilesProvider.SkipTiles(6)) // zaimplementuj to
+        Console.WriteLine("TakeTilesWhileNameStartsWith : A");
+        foreach (var tile in _tilesProvider.TakeTilesWhileNameStartsWith("A"))
+        {
+            Console.WriteLine(tile);
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("SkipTiles : 6");
+        foreach (var item in _tilesProvider.SkipTiles(6))
         {
             Console.WriteLine(item);
         }
 
         Console.WriteLine();
-        Console.WriteLine("SkipTilesWhileNameStartsWith 6");
+        Console.WriteLine("SkipTilesWhileNameStartsWith : A");
         foreach (var item in _tilesProvider.SkipTilesWhileNameStartsWith("A"))
+        {
+            Console.WriteLine(item);
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("DistinctAllColor()");
+        foreach (var item in _tilesProvider.DistinctAllColor())
+        {
+            Console.WriteLine(item);
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("DistinctTilesByColor()");
+        foreach (var item in _tilesProvider.DistinctTilesByColor())
         {
             Console.WriteLine(item);
         }
@@ -208,7 +259,7 @@ public class App : IApp
                 Id = 330,
                 Name = "CLUNY SAND",
                 Color = "Beige",
-                StandardCost = 97,
+                StandardCost = 150,
                 ListPrice = 270,
                 Type = "100x275",
             },

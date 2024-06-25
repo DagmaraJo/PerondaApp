@@ -1,6 +1,7 @@
-﻿using PerondaApp.Entities;
+﻿using PerondaApp.Data.Entities;
+using PerondaApp.Data.Repositories;
 
-namespace PerondaApp.Repositories.Extensions;
+namespace PerondaApp.Data.Repositories.Extensions;
 
 public static class RepositoryExtensions
 {

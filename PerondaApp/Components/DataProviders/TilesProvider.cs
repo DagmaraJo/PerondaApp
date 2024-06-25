@@ -1,8 +1,7 @@
-﻿namespace PerondaApp.DataProviders;
+﻿namespace PerondaApp.Components.DataProviders;
 
-using PerondaApp.DataProviders.Extensions;
-using PerondaApp.Repositories;
-using System;
+using PerondaApp.Components.DataProviders.Extensions;
+using PerondaApp.Data.Repositories;
 using System.Text;
 
 public class TilesProvider : ITilesProvider
@@ -27,7 +26,7 @@ public class TilesProvider : ITilesProvider
         return tiles.Select(x => x.ListPrice).Min();
     }
 
-    public List<string> GetSpecificColumns()
+    public List<Tile> GetSpecificColumns()
     {
         var tiles = _tilesRepository.GetAll();
         var list = tiles.Select(tile => new Tile
@@ -37,10 +36,10 @@ public class TilesProvider : ITilesProvider
             Type = tile.Type
         }).ToList();
 
-        return list;  // nie można niejawnie przekonwertować <Tile> na <string>
+        return list;
     }
 
-    public string AnonymusClass()
+    public string AnonymusClassInString()
     {
         var tiles = _tilesRepository.GetAll();
         var list = tiles.Select(tile => new
@@ -147,7 +146,7 @@ public class TilesProvider : ITilesProvider
         var tiles = _tilesRepository.GetAll();
         return tiles
             .OrderBy(x => x.Name)
-            .TakeWhile((x => x.Name.StartsWith(prefix)))
+            .TakeWhile(x => x.Name.StartsWith(prefix))
             .ToList();
     }
 
@@ -165,11 +164,11 @@ public class TilesProvider : ITilesProvider
         var tiles = _tilesRepository.GetAll();
         return tiles
             .OrderBy(x => x.Name)
-            .SkipWhile((x => x.Name.StartsWith(prefix)))
+            .SkipWhile(x => x.Name.StartsWith(prefix))
             .ToList();
     }
 
-    public List<string> DistinctAllColorIs()
+    public List<string> DistinctAllColor()
     {
         var tiles = _tilesRepository.GetAll();
         return tiles
@@ -179,7 +178,7 @@ public class TilesProvider : ITilesProvider
             .ToList();
     }
 
-    public List<Tile> DistinctByColorIs()
+    public List<Tile> DistinctTilesByColor()
     {
         var tiles = _tilesRepository.GetAll();
         return tiles

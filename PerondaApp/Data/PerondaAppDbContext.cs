@@ -1,7 +1,7 @@
 ﻿namespace PerondaApp.Data;
 
 using Microsoft.EntityFrameworkCore;
-using PerondaApp.Entities;
+using PerondaApp.Data.Entities;
 
 public class PerondaAppDbContext : DbContext
 {
@@ -9,7 +9,7 @@ public class PerondaAppDbContext : DbContext
 
     public DbSet<BusinessPartner> BusinessPartners => Set<BusinessPartner>();
 
-    public DbSet<Tile> Tiles => Set<Tile>();
+    //public DbSet<Tile> Tiles => Set<Tile>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

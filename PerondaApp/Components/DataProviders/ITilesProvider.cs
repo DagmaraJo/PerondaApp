@@ -1,27 +1,27 @@
-﻿namespace PerondaApp.DataProviders;
+﻿namespace PerondaApp.Components.DataProviders;
 
 public interface ITilesProvider
 {
     List<Tile> FilterTiles(decimal minPrice);
 
     // select
-    
-    List<string>GetUniqueTileColors();
 
-    List<string> GetSpecificColumns();
+    List<string> GetUniqueTileColors();
 
-    string AnonymusClass();
+    List<Tile> GetSpecificColumns();
+
+    string AnonymusClassInString();
 
     decimal GetMinimumPriceOfAllTiles();
 
     // order by
 
-    List<Tile>OrderByName();
+    List<Tile> OrderByName();
 
     List<Tile> OrderByNameDescending();
-    
+
     List<Tile> OrderByColorAndName();
-    
+
     List<Tile> OrderByColorAndNameDesc();
 
     // where
@@ -48,9 +48,9 @@ public interface ITilesProvider
 
     // distinct
 
-    List<string> DistinctAllColorIs();
+    List<string> DistinctAllColor();
 
-    List<Tile> DistinctByColorIs();
+    List<Tile> DistinctTilesByColor();
 
     // chunk
 

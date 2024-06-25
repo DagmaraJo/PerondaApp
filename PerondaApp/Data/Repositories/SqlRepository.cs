@@ -1,13 +1,13 @@
-﻿namespace PerondaApp.Repositories;
+﻿namespace PerondaApp.Data.Repositories;
 
 using Microsoft.EntityFrameworkCore;
-using PerondaApp.Entities;
+using PerondaApp.Data.Entities;
 
 public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
 {
     private readonly DbContext _dbContext;
     private readonly DbSet<T> _dbSet;
-    private readonly Action <T>? _itemAddedCallback;
+    private readonly Action<T>? _itemAddedCallback;
 
     public SqlRepository(DbContext dbContext, Action<T>? itemAddedCallback = null)
     {
@@ -23,7 +23,7 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
         return _dbSet.ToList();
     }
 
-    public T? GetById(int id) 
+    public T? GetById(int id)
     {
         return _dbSet.Find(id);
     }
