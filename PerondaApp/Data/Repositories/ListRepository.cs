@@ -1,7 +1,6 @@
 ﻿namespace PerondaApp.Data.Repositories
 {
     using Entities;
-    using PerondaApp.Data.Entities;
 
     public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
     {

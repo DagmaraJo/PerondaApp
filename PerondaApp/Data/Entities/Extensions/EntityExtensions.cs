@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using PerondaApp.Data.Entities;
 
 namespace PerondaApp.Data.Entities.Extensions;
 

@@ -1,5 +1,4 @@
 ﻿using PerondaApp.Data.Entities;
-using PerondaApp.Data.Repositories;
 
 namespace PerondaApp.Data.Repositories.Extensions;
 
