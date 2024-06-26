@@ -3,16 +3,14 @@ using PerondaApp;
 using PerondaApp.Components.DataProviders;
 using PerondaApp.Data.Entities;
 using PerondaApp.Data.Repositories;
+using PerondaApp.Components.CsvReader;
 
 var services = new ServiceCollection();
 services.AddSingleton<IApp, App>();
 services.AddSingleton<IRepository<Employee>, ListRepository<Employee>>();
 services.AddSingleton<IRepository<Tile>, ListRepository<Tile>>();
 services.AddSingleton<ITilesProvider, TilesProvider>();
-
-//services.AddSingleton<IApp, App>();
-//services.AddSingleton<IApp, App>();
-//services.AddSingleton<IApp, App>();
+services.AddSingleton<ICsvReader, CsvReader>();
 
 
 var serviceProvider = services.BuildServiceProvider();
