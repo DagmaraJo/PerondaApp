@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -10,6 +10,18 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.20" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Components\CsvReader\CsvReader.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="Components\CsvReader\Models\Manufacturer.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="Components\CsvReader\Models\Tile.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

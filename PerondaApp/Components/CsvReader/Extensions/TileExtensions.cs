@@ -14,7 +14,7 @@ public static class TileExtensions
             yield return new Tile
             {
                 Year = int.Parse(columns[0]),
-                Manufacturer = columns[1],
+                ManuFacturer = columns[1],
                 Name = columns[2],
                 Displacement = double.Parse(columns[3], CultureInfo.InvariantCulture),
                 Parameters = int.Parse(columns[4]),

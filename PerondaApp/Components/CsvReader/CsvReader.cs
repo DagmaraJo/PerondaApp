@@ -5,16 +5,16 @@ using PerondaApp.Components.CsvReader.Models;
 
 public class CsvReader : ICsvReader
 {
-    public List<Tile> ProcessTiles(string filePath)
+    public List<Tile> ProcessTiles(string filePath) //procesowanie - obróbka pliku do odczytywania
     {
         if (!File.Exists(filePath))
         {
             return new List<Tile>();
         }
 
-        var tiles = File.ReadAllLines(filePath)
+        var tiles = File.ReadAllLines(filePath) //string[]
             .Skip(1)
-            .Where(x => x.Length > 1)
+            .Where(x => x.Length > 1) //IEnumerable<string>
             .ToTile();
 
         return tiles.ToList();
@@ -33,7 +33,7 @@ public class CsvReader : ICsvReader
         }
         var manufacturers = File.ReadAllLines(filePath)
             .Where(x => x.Length > 1)
-            .Select(x=>
+            .Select(x =>
             {
                 var columns = x.Split(',');
                 return new Manufacturer()

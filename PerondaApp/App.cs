@@ -27,7 +27,90 @@ public class App : IApp
     public void Run()
     {
         var tiles = _csvReader.ProcessTiles("Resources\\Files\\fuel.csv");
-        var manufactures = _csvReader.ProcessManufacturers("Resources\\Files\\manufactures.csv");
+        var manufacturers = _csvReader.ProcessManufacturers("Resources\\Files\\manufacturers.csv");
+
+        //var groups = tiles.GroupBy(x => x.ManuFacturer).Select(g => new
+        //{
+        //    Name = g.Key,
+        //    Max = g.Max(t => t.Combined),
+        //    Average = g.Average(t => t.Combined)
+        //})
+        //    .OrderBy(x => x.Average);
+
+        //foreach (var group in groups)
+        //{
+        //    Console.WriteLine($"{group.Name}");
+        //    Console.WriteLine($"\t{group.Max}");
+        //    Console.WriteLine($"{group.Average}");
+        //}
+
+
+
+        //var tilesInCountry = tiles.Join(  //nowa kolekcja za pomocą Join'a, łączy nasze 2 kolekcje z 2 plików
+        //    manufacturers,
+        //    x => x.ManuFacturer,  // wg klucza z Tile
+        //    x => x.Name,           // wg klucza z Manufa
+        //    (tile, manufacturer) =>  // z tych połączonych obiektów
+        //    new
+        //    {               // tworzymy nowy obiekt wg kluczy(w nowej anonimowej klasie)
+        //        manufacturer.Country,
+        //        tile.Name,
+        //        tile.Combined  //ile zostało skonstruowanych
+        //    })
+        //    .OrderByDescending(x => x.Combined)
+        //    .ThenBy(x => x.Name);
+
+        //foreach (var tile in tilesInCountry)
+        //{
+        //    Console.WriteLine($"Country: {tile.Country}");
+        //    Console.WriteLine($"\t Name : {tile.Name}");
+        //    Console.WriteLine($"\t Combined : {tile.Combined}");
+        //}
+
+
+
+        //var tilesInCountry = tiles.Join(  //nowa kolekcja za pomocą Join'a, łączy nasze 2 kolekcje z 2 plików
+        //    manufacturers,
+        //    t => new { t.ManuFacturer, t.Year },           // wg złożonego klucza z Tile
+        //    m => new { ManuFacturer = m.Name, m.Year },    // wg złożonego klucza z Manufa
+        //    (tile, manufacturer) =>
+        //    new
+        //    { 
+        //        manufacturer.Country,
+        //        tile.Name,
+        //        tile.Combined  //ile zostało skonstruowanych
+        //    })
+        //    .OrderByDescending(x => x.Combined)
+        //    .ThenBy(x => x.Name);
+
+        //foreach (var tile in tilesInCountry)
+        //{
+        //    Console.WriteLine($"Country: {tile.Country}");
+        //    Console.WriteLine($"\t Name : {tile.Name}");
+        //    Console.WriteLine($"\t Combined : {tile.Combined}");
+        //}
+
+        var groups = manufacturers.GroupJoin(
+            tiles,
+            manufacturers => manufacturers.Name,
+            tile => tile.ManuFacturer,
+            (m, g) =>
+            new
+            { 
+                Manufacturer = m,
+                Tiles = g
+            })
+            .OrderBy(x => x.Manufacturer.Name);
+
+        foreach (var tile in groups)
+        {
+            Console.WriteLine($"Manufacturer: {tile.Manufacturer.Name}");
+            Console.WriteLine($"\t Tiles : {tile.Tiles.Count()}");
+            Console.WriteLine($"\t Max : {tile.Tiles.Max(x => x.Combined)}");
+            Console.WriteLine($"\t Min : {tile.Tiles.Min(x => x.Combined)}");
+            Console.WriteLine($"\t Avg : {tile.Tiles.Average(x => x.Combined)}");
+            Console.WriteLine();
+        }
 
 
 
@@ -180,98 +263,98 @@ public class App : IApp
         //}
     }
 
-    public static List<Tile> GenerateSampleTiles()
-    {
-        return new List<Tile>
-        {
-            new Tile{
-                Id = 321,
-                Name = "ALCHEMY PEARL",
-                Color = "White",
-                StandardCost = 97,
-                ListPrice = 100,
-                Type = "q.60",
-            },
-            new Tile{
-                Id = 322,
-                Name = "ALCHEMY PEARL",
-                Color = "White",
-                StandardCost = 120,
-                ListPrice = 120,
-                Type = "q.90",
-            },
-            new Tile{
-                Id = 323,
-                Name = "ALCHEMY PEARL",
-                Color = "White",
-                StandardCost = 140,
-                ListPrice = 149,
-                Type = "60x120",
-            },
-            new Tile{
-                Id = 324,
-                Name = "ALCHEMY IRON",
-                Color = "Gray",
-                StandardCost = 90,
-                ListPrice = 90,
-                Type = "q.60",
-            },
-            new Tile{
-                Id = 325,
-                Name = "ALCHEMY IRON",
-                Color = "Gray",
-                StandardCost = 120,
-                ListPrice = 120,
-                Type = "q.90",
-            },
-            new Tile{
-                Id = 326,
-                Name = "ALCHEMY IRON",
-                Color = "Gray",
-                StandardCost = 160,
-                ListPrice = 160,
-                Type = "q.120",
-            },
-            new Tile{
-                Id = 327,
-                Name = "ALCHEMY IRON",
-                Color = "Gray",
-                StandardCost = 149,
-                ListPrice = 140,
-                Type = "60x120",
-            },
-            new Tile{
-                Id = 328,
-                Name = "ALCHEMY EARTH",
-                Color = "Beige",
-                StandardCost = 97,
-                ListPrice = 90,
-                Type = "q.60",
-            },
-            new Tile{
-                Id = 329,
-                Name = "ALCHEMY EARTH",
-                Color = "Beige",
-                StandardCost = 97,
-                ListPrice = 120,
-                Type = "q.90",
-            },
-            new Tile{
-                Id = 330,
-                Name = "CLUNY Beige",
-                Color = "Beige",
-                StandardCost = 97,
-                ListPrice = 130,
-                Type = "q.100",
-            },
-            new Tile{
-                Id = 330,
-                Name = "CLUNY SAND",
-                Color = "Beige",
-                StandardCost = 150,
-                ListPrice = 270,
-                Type = "100x275",
-            },
-        };
-    }
+    //public static List<Tile> GenerateSampleTiles()
+    //{
+    //    return new List<Tile>
+    //    {
+    //        new Tile{
+    //            Id = 321,
+    //            Name = "ALCHEMY PEARL",
+    //            Color = "White",
+    //            StandardCost = 97,
+    //            ListPrice = 100,
+    //            Type = "q.60",
+    //        },
+    //        new Tile{
+    //            Id = 322,
+    //            Name = "ALCHEMY PEARL",
+    //            Color = "White",
+    //            StandardCost = 120,
+    //            ListPrice = 120,
+    //            Type = "q.90",
+    //        },
+    //        new Tile{
+    //            Id = 323,
+    //            Name = "ALCHEMY PEARL",
+    //            Color = "White",
+    //            StandardCost = 140,
+    //            ListPrice = 149,
+    //            Type = "60x120",
+    //        },
+    //        new Tile{
+    //            Id = 324,
+    //            Name = "ALCHEMY IRON",
+    //            Color = "Gray",
+    //            StandardCost = 90,
+    //            ListPrice = 90,
+    //            Type = "q.60",
+    //        },
+    //        new Tile{
+    //            Id = 325,
+    //            Name = "ALCHEMY IRON",
+    //            Color = "Gray",
+    //            StandardCost = 120,
+    //            ListPrice = 120,
+    //            Type = "q.90",
+    //        },
+    //        new Tile{
+    //            Id = 326,
+    //            Name = "ALCHEMY IRON",
+    //            Color = "Gray",
+    //            StandardCost = 160,
+    //            ListPrice = 160,
+    //            Type = "q.120",
+    //        },
+    //        new Tile{
+    //            Id = 327,
+    //            Name = "ALCHEMY IRON",
+    //            Color = "Gray",
+    //            StandardCost = 149,
+    //            ListPrice = 140,
+    //            Type = "60x120",
+    //        },
+    //        new Tile{
+    //            Id = 328,
+    //            Name = "ALCHEMY EARTH",
+    //            Color = "Beige",
+    //            StandardCost = 97,
+    //            ListPrice = 90,
+    //            Type = "q.60",
+    //        },
+    //        new Tile{
+    //            Id = 329,
+    //            Name = "ALCHEMY EARTH",
+    //            Color = "Beige",
+    //            StandardCost = 97,
+    //            ListPrice = 120,
+    //            Type = "q.90",
+    //        },
+    //        new Tile{
+    //            Id = 330,
+    //            Name = "CLUNY Beige",
+    //            Color = "Beige",
+    //            StandardCost = 97,
+    //            ListPrice = 130,
+    //            Type = "q.100",
+    //        },
+    //        new Tile{
+    //            Id = 330,
+    //            Name = "CLUNY SAND",
+    //            Color = "Beige",
+    //            StandardCost = 150,
+    //            ListPrice = 270,
+    //            Type = "100x275",
+    //        },
+    //    };
+    //}
 }
