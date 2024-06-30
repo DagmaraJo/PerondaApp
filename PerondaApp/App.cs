@@ -4,6 +4,8 @@ using PerondaApp.Components.CsvReader;
 using PerondaApp.Components.DataProviders;
 using PerondaApp.Data.Entities;
 using PerondaApp.Data.Repositories;
+using System.Reflection.Metadata;
+using System.Xml.Linq;
 
 public class App : IApp
 {
@@ -24,10 +26,47 @@ public class App : IApp
         _csvReader = csvReader;
     }
 
+    public void CreateXml()
+    {
+        var records = _csvReader.ProcessTiles("Resources\\Files\\fuel.csv");
+
+        var document = new XDocument();
+
+        var tiles = new XElement("Tiles", records
+            .Select(x =>
+            new XElement("Tile",
+            new XAttribute ("Name", x.Name),
+                   new XAttribute("Combined", x.Combined),
+                   new XAttribute("Manufacturer", x.ManuFacturer))));
+
+        document.Add(tiles);
+        document.Save("Fuel.xml");
+    }
+
+    private static void QueryXml()
+    {
+        var document = XDocument.Load("Fuel.xml");
+        var names = document.Element("Tiles")?
+            .Elements("Tile")
+            .Where(x => x.Attribute("Manufacturer")?.Value=="BMW")
+            .Select(x=> x.Attribute("Name")?.Value);
+
+        foreach (var name in names)
+        {
+            Console.WriteLine(name);
+        }
+    }
+
     public void Run()
     {
-        var tiles = _csvReader.ProcessTiles("Resources\\Files\\fuel.csv");
-        var manufacturers = _csvReader.ProcessManufacturers("Resources\\Files\\manufacturers.csv");
+        CreateXml();
+        QueryXml();
+
+
+
+
+        //var tiles = _csvReader.ProcessTiles("Resources\\Files\\fuel.csv");
+        //var manufacturers = _csvReader.ProcessManufacturers("Resources\\Files\\manufacturers.csv");
 
         //var groups = tiles.GroupBy(x => x.ManuFacturer).Select(g => new
         //{
@@ -90,27 +129,27 @@ public class App : IApp
         //    Console.WriteLine($"\t Combined : {tile.Combined}");
         //}
 
-        var groups = manufacturers.GroupJoin(
-            tiles,
-            manufacturers => manufacturers.Name,
-            tile => tile.ManuFacturer,
-            (m, g) =>
-            new
-            { 
-                Manufacturer = m,
-                Tiles = g
-            })
-            .OrderBy(x => x.Manufacturer.Name);
+        //var groups = manufacturers.GroupJoin(
+        //    tiles,
+        //    manufacturers => manufacturers.Name,
+        //    tile => tile.ManuFacturer,
+        //    (m, g) =>
+        //    new
+        //    { 
+        //        Manufacturer = m,
+        //        Tiles = g
+        //    })
+        //    .OrderBy(x => x.Manufacturer.Name);
 
-        foreach (var tile in groups)
-        {
-            Console.WriteLine($"Manufacturer: {tile.Manufacturer.Name}");
-            Console.WriteLine($"\t Tiles : {tile.Tiles.Count()}");
-            Console.WriteLine($"\t Max : {tile.Tiles.Max(x => x.Combined)}");
-            Console.WriteLine($"\t Min : {tile.Tiles.Min(x => x.Combined)}");
-            Console.WriteLine($"\t Avg : {tile.Tiles.Average(x => x.Combined)}");
-            Console.WriteLine();
-        }
+        //foreach (var tile in groups)
+        //{
+        //    Console.WriteLine($"Manufacturer: {tile.Manufacturer.Name}");
+        //    Console.WriteLine($"\t Tiles : {tile.Tiles.Count()}");
+        //    Console.WriteLine($"\t Max : {tile.Tiles.Max(x => x.Combined)}");
+        //    Console.WriteLine($"\t Min : {tile.Tiles.Min(x => x.Combined)}");
+        //    Console.WriteLine($"\t Avg : {tile.Tiles.Average(x => x.Combined)}");
+        //    Console.WriteLine();
+        //}
 
 
 
