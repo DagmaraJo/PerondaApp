@@ -1,9 +1,9 @@
 ﻿namespace PerondaApp.Data.Entities
 {
-    public class BusinessPartner : EntityBase
+    public class BusinessPartner : Person
     {
         public string? Name { get; set; }
 
-        public override string ToString() => $"BusinessPartner ID: {Id}, Name: {Name}";
+        public override string ToString() => $" ID: {Id} {FullName} {Position} {Name}   * Business Partner";
     }
 }

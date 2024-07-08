@@ -61,6 +61,7 @@ public class App : IApp
     {
         CreateXml();
         QueryXml();
+        //InitializeComponent();
 
 
 

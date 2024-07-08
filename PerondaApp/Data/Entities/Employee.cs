@@ -1,18 +1,7 @@
 ﻿namespace PerondaApp.Data.Entities
 {
-    public class Employee : EntityBase
+    public class Employee : Person
     {
-        //public Employee()
-        //{
-        //}
-
-        //public Employee(string name)
-        //{
-        //}
-
-
-        public string? FirstName { get; set; }
-
-        public override string ToString() => $"Employee ID: {Id}, Firstname: {FirstName}";
+        public override string ToString() => $" ID: {Id}  {FullName}   >> {GetType().Name}";
     }
 }

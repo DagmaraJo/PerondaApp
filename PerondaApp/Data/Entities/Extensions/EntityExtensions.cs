@@ -1,6 +1,6 @@
-﻿using System.Text.Json;
+﻿namespace PerondaApp.Data.Entities.Extensions;
 
-namespace PerondaApp.Data.Entities.Extensions;
+using System.Text.Json;
 
 public static class EntityExtensions
 {
@@ -9,4 +9,7 @@ public static class EntityExtensions
         var json = JsonSerializer.Serialize(itemToCopy);
         return JsonSerializer.Deserialize<T>(json);  // tu będzie kopia obiektu na nowej referencji
     }
+
+    //static readonly Tile original = new Tile();
+    //static readonly Tile copy = Tile.Copy();
 }

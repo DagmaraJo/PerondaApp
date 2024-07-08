@@ -1,47 +1,66 @@
-﻿namespace PerondaApp.Data.Repositories;
+﻿//namespace PerondaApp.Data.Repositories;
 
-using Microsoft.EntityFrameworkCore;
-using PerondaApp.Data.Entities;
+//using Microsoft.EntityFrameworkCore;
+//using PerondaApp.Data.Entities;
 
-public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
-{
-    private readonly DbContext _dbContext;
-    private readonly DbSet<T> _dbSet;
-    private readonly Action<T>? _itemAddedCallback;
+//public delegate void ItemAdded<in T>(T item);
+//public delegate void ItemAddedCallback(object item);
+//public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
+//{
+//    private readonly DbContext _dbContext;
+//    private readonly DbSet<T> _dbSet;
+//    private readonly ItemAdded<T>? _itemAdded;
 
-    public SqlRepository(DbContext dbContext, Action<T>? itemAddedCallback = null)
-    {
-        _dbContext = dbContext;
-        _dbSet = _dbContext.Set<T>();
-        _itemAddedCallback = itemAddedCallback;
-    }
+//    public SqlRepository(DbContext dbContext, ItemAddedCallback? itemAddedCallback = null,   //wcześniej było żle Action<T>
+//         ItemAdded<T>? itemAdded = null,                                   //EventHandler<T>? itemAdded = null,
+//                                             EventHandler<T>? itemRemoved = null)
 
-    public event EventHandler<T>? ItemAdded;
+//    {
+//        _dbContext = dbContext;
+//        _dbSet = _dbContext.Set<T>();
+//        _itemAdded = itemAdded;
+//    }
 
-    public IEnumerable<T> GetAll()
-    {
-        return _dbSet.ToList();
-    }
+//    public event ItemAdded<T>? ItemAdded;
 
-    public T? GetById(int id)
-    {
-        return _dbSet.Find(id);
-    }
+//    public event EventHandler<T>? ItemRemoved;
 
-    public void Add(T item)
-    {
-        _dbSet.Add(item);
-        _itemAddedCallback?.Invoke(item);
-        ItemAdded?.Invoke(this, item);   //  EventHandler<T>
-    }
+//    public IEnumerable<T> GetAll()
+//    {
+//        return _dbSet.OrderBy(item => item.Id).ToList();
+//    }
 
-    public void Remove(T item)
-    {
-        _dbSet.Remove(item);
-    }
+//    public T? GetById(int id)
+//    {
+//        return _dbSet.Find(id);
+//    }
 
-    public void Save()
-    {
-        _dbContext.SaveChanges();
-    }
-}
+//    public void Add(T item)
+//    {
+//        _dbSet.Add(item);
+//        _dbContext.SaveChanges();
+//        ItemAdded?.Invoke(this, item);
+//    }
+
+//    public void Remove(T item)
+//    {
+//        _dbSet.Remove(item);
+//        _dbContext.SaveChanges();
+//        ItemRemoved?.Invoke(this, item);
+//    }
+
+//    public void Save()
+//    {
+//        _dbContext.SaveChanges();
+//    }
+
+//    public IEnumerable<T> Read()
+//    {
+//        return _dbSet.ToList();
+//    }
+
+//    public int GetListCount()
+//    {
+//        return Read().ToList().Count;
+//    }
+//}

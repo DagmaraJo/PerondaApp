@@ -3,9 +3,9 @@ using PerondaApp.Data.Entities;
 
 public class Tile: EntityBase
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
-    public string Color { get; set; }
+    public string? Color { get; set; }
 
     public decimal StandardCost { get; set; }
 
@@ -17,6 +17,11 @@ public class Tile: EntityBase
     public int? NameLength { get; set; }
 
     public decimal? TotalSales { get; set; }
+
+    internal static Tile Copy()
+    {
+        throw new NotImplementedException();
+    }
 
     #region ToString Override
     public override string ToString()
