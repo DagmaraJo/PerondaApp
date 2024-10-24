@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using PerondaApp.Data.Entities;
 
-public class Tile: EntityBase
+public class Tile: EntityBase, IEntity
 {
     public string? Name { get; set; }
 

@@ -13,7 +13,7 @@ public class PerondaAppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        base.OnConfiguring(optionsBuilder);
+        base.OnConfiguring(optionsBuilder);  //określamy jak będzie się nazywać nasza baza danych w pamięci
         optionsBuilder.UseInMemoryDatabase("StorageAppDb");
         //var configurationBuilder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
         //IConfiguration configuration = configurationBuilder.Build();

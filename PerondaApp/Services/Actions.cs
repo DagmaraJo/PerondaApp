@@ -8,8 +8,8 @@ public class Actions
     private readonly IRepository<Employee> _employeeRepository;
     private readonly IRepository<BusinessPartner> _businessPartnerRepository;
     private readonly IRepository<Tile> _tileRepository;
-    private readonly IRepository<Person> _personRepository;
-    private readonly IRepository<IEntity> _itemRepository;
+    //private readonly IRepository<Person> _personRepository;
+    //private readonly IRepository<IEntity> _itemRepository;
 
     public Actions(IRepository<Employee> employeeRepository,
         IRepository<BusinessPartner> businessPartnerRepository,

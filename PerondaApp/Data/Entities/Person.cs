@@ -1,7 +1,6 @@
-﻿
-namespace PerondaApp.Data.Entities;
+﻿namespace PerondaApp.Data.Entities;
 
-public class Person : EntityBase
+public class Person : EntityBase, IEntity
 {
     //public Person()
     //{
@@ -15,15 +14,17 @@ public class Person : EntityBase
 
     public string? Surname { get; set;}
 
-    public string FullName => $" {FirstName} {Surname}";
-
-    public string? Position { get; private set; }
+    public string? Position { get; set; }
 
     public string? Adress { get; private set; }
 
     public int? TelNumb { get; private set; }
 
     public string? EMail { get; private set; }
+
+    public string FullName => $" {FirstName} {Surname}";
+
+    public override string ToString() => $" ID: {Id}  {FullName}";
 }
 
 
