@@ -123,6 +123,50 @@ public class TilesProvider : ITilesProvider
         return tiles.ByColor(color).ToList();  //return tiles.ByColor("Gray").ToList();
     }
 
+    //teraz dopisane
+    public Tile FirstByColor(string color)
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles.First(x => x.Color == color);
+    }
+
+    public Tile? FirstOrDefaultByColor(string color) //fajniejsza wersja z opcją zwracania null
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles.FirstOrDefault(x => x.Color == color);
+    }
+
+    public Tile FirstOrDefaultByColorWithDefault(string color) // kiedy defaultem ma być obiekt określony przez nas, a nie "zwykły null"
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            .FirstOrDefault(
+            x => x.Color == color,  //x => x.Color == "Gray",
+            new Tile { Id = -1, Name = "NOT FOUND" });
+    }
+
+    public Tile LastByColor(string color)
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles.Last(x => x.Color == color);
+    }
+
+    public Tile SingleById(int id)
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles.Single(x => x.Id == id);
+    }
+
+    public Tile? SingleOrDefaultById(int id) // żeby nie leciał exception to jest lepsza wersja-gdy spytamy o id które nie istnieje - defaultem będzie null
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles.SingleOrDefault(x => x.Id == id);
+    }
+
+
+
+
+
     public List<Tile> TakeTiles(int howMany)
     {
         var tiles = _tilesRepository.GetAll();
@@ -137,11 +181,11 @@ public class TilesProvider : ITilesProvider
         var tiles = _tilesRepository.GetAll();
         return tiles
             .OrderBy(x => x.Color)
-            .Take(range)  //.Take(2..7)
+            .Take(range)  //.Take(2..7) określamy zakres
             .ToList();
     }
 
-    public List<Tile> TakeTilesWhileNameStartsWith(string prefix)
+    public List<Tile> TakeTilesWhileNameStartsWith(string prefix) // weź tak dużo jak startują z danym prefiksem
     {
         var tiles = _tilesRepository.GetAll();
         return tiles
@@ -155,7 +199,7 @@ public class TilesProvider : ITilesProvider
         var tiles = _tilesRepository.GetAll();
         return tiles
             .OrderBy(x => x.Name)
-            .Skip(howMany)
+            .Skip(howMany)  // pomiń tyle elementów(np stron itp.) i weź całą resztę
             .ToList();
     }
 

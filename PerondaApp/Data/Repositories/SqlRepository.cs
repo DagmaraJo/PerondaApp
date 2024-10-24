@@ -5,42 +5,15 @@ using PerondaApp.Data.Entities;
 
 public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
 {
-    //private readonly PerondaAppDbContext _perondaAppDbContext;
     private readonly DbContext _dbContext;
     private readonly DbSet<T> _dbSet;
-    //private List<T> _items = new();
-
-    //public PerondaAppDbContext PerondaAppDbContext { get; }
-    //public Action<Employee> EmployeeAdded { get; }
-    //public Action<Employee> EmployeeRemoved { get; }
-    //public Action<BusinessPartner> BusinessPartnerAdded { get; }
-    //public Action<BusinessPartner> BusinessPartnerRemoved { get; }
 
     public SqlRepository(DbContext dbContext, 
         Action<Employee> employeeAdded, Action<Employee> employeeRemoved) 
-    //    Action<BusinessPartner> bsinessPartnerAdded, Action<BusinessPartner> bsinessPartnerRemoved)
     {
         _dbContext = dbContext;
         _dbSet = dbContext.Set<T>();
-        //    _perondaAppDbContext = perondaAppDbContext;
-        //    _dbSet = _perondaAppDbContext.Set<T>();
-        //    _perondaAppDbContext.Database.EnsureCreated();
-
     }
-
-    //public SqlRepository(PerondaAppDbContext perondaAppDbContext, Action<Employee> employeeAdded, Action<Employee> employeeRemoved)
-    //{
-    //    PerondaAppDbContext = perondaAppDbContext;
-    //    EmployeeAdded = employeeAdded;
-    //    EmployeeRemoved = employeeRemoved;
-    //}
-
-    //public SqlRepository(PerondaAppDbContext perondaAppDbContext, Action<BusinessPartner> businessPartnerAdded, Action<BusinessPartner> businessPartnerRemoved)
-    //{
-    //    PerondaAppDbContext = perondaAppDbContext;
-    //    BusinessPartnerAdded = businessPartnerAdded;
-    //    BusinessPartnerRemoved = businessPartnerRemoved;
-    //}
 
     public event EventHandler<T>? ItemAdded;
     public event EventHandler<T>? ItemRemoved;

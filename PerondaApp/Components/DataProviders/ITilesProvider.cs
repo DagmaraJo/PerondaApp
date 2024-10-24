@@ -32,6 +32,20 @@ public interface ITilesProvider
 
     List<Tile> WhereColorIs(string color);
 
+    // first, last, single
+
+    Tile FirstByColor(string color);
+
+    Tile? FirstOrDefaultByColor(string color);
+
+    Tile FirstOrDefaultByColorWithDefault(string color);
+
+    Tile LastByColor(string color);
+
+    Tile SingleById(int id);
+
+    Tile? SingleOrDefaultById(int id);
+
     // take
 
     List<Tile> TakeTiles(int howMany);
