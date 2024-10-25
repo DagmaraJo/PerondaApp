@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using PerondaApp.Data.Entities;
+using PerondaApp.Entities;
 
 public class Tile: EntityBase, IEntity
 {

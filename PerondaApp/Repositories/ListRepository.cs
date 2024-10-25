@@ -1,7 +1,7 @@
-﻿using PerondaApp.Data.Entities;
+﻿using PerondaApp.Entities;
 using System.Text.Json;
 
-namespace PerondaApp.Data.Repositories;
+namespace PerondaApp.Repositories;
 
 public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
 {

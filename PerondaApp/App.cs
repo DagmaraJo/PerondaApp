@@ -2,8 +2,8 @@
 
 using PerondaApp.Components.CsvReader;
 using PerondaApp.Components.DataProviders;
-using PerondaApp.Data.Entities;
-using PerondaApp.Data.Repositories;
+using PerondaApp.Entities;
+using PerondaApp.Repositories;
 using System.Reflection.Metadata;
 using System.Xml.Linq;
 

@@ -1,15 +1,15 @@
-﻿namespace PerondaApp.Data.Repositories;
+﻿namespace PerondaApp.Repositories;
 
 using Microsoft.EntityFrameworkCore;
-using PerondaApp.Data.Entities;
+using PerondaApp.Entities;
 
 public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
 {
     private readonly DbContext _dbContext;
     private readonly DbSet<T> _dbSet;
 
-    public SqlRepository(DbContext dbContext, 
-        Action<Employee> employeeAdded, Action<Employee> employeeRemoved) 
+    public SqlRepository(DbContext dbContext,
+        Action<Employee> employeeAdded, Action<Employee> employeeRemoved)
     {
         _dbContext = dbContext;
         _dbSet = dbContext.Set<T>();

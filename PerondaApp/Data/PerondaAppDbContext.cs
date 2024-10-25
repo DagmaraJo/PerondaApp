@@ -1,7 +1,7 @@
 ﻿namespace PerondaApp.Data;
 
 using Microsoft.EntityFrameworkCore;
-using PerondaApp.Data.Entities;
+using PerondaApp.Entities;
 
 public class PerondaAppDbContext : DbContext
 {

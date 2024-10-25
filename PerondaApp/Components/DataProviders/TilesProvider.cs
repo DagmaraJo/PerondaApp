@@ -1,7 +1,7 @@
 ﻿namespace PerondaApp.Components.DataProviders;
 
 using PerondaApp.Components.DataProviders.Extensions;
-using PerondaApp.Data.Repositories;
+using PerondaApp.Repositories;
 using System.Text;
 
 public class TilesProvider : ITilesProvider

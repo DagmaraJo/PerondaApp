@@ -1,5 +1,5 @@
-﻿using PerondaApp.Data.Entities;
-using PerondaApp.Data.Repositories;
+﻿using PerondaApp.Entities;
+using PerondaApp.Repositories;
 
 namespace PerondaApp.Services;
 

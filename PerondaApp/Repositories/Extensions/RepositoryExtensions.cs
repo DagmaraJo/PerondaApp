@@ -1,6 +1,6 @@
-﻿using PerondaApp.Data.Entities;
+﻿using PerondaApp.Entities;
 
-namespace PerondaApp.Data.Repositories.Extensions;
+namespace PerondaApp.Repositories.Extensions;
 
 public static class RepositoryExtensions
 {
@@ -33,6 +33,6 @@ public static class RepositoryExtensions
     public static void RemoveBatch<T>(this string s, T[] items)
     where T : class, IEntity
     {
-        
+
     }
 }

@@ -1,13 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PerondaApp;
-using PerondaApp.Components.DataProviders;
-using PerondaApp.Data.Entities;
-using PerondaApp.Data.Repositories;
-using PerondaApp.Data;
-using PerondaApp.Data.Repositories.Extensions;
-using System.Text;
-using Newtonsoft.Json;
-using System.Resources;
+﻿using PerondaApp.Entities;
+using PerondaApp.Repositories;
 
 
 var employeeRepository = new ListRepository<Employee>();

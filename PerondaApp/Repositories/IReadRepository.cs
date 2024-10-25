@@ -1,6 +1,6 @@
-﻿using PerondaApp.Data.Entities;
+﻿using PerondaApp.Entities;
 
-namespace PerondaApp.Data.Repositories;
+namespace PerondaApp.Repositories;
 
 public interface IReadRepository<out T> where T : class, IEntity
 {

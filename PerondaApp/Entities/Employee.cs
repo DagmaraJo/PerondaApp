@@ -1,4 +1,4 @@
-﻿namespace PerondaApp.Data.Entities
+﻿namespace PerondaApp.Entities
 {
     public class Employee : Person, IEntity
     {
