@@ -1,4 +1,4 @@
-﻿namespace PerondaApp.Components.CsvReader.Models;
+﻿namespace PerondaApp.Data.Components.CsvReader.Models;
 
 public class Manufacturer
 {

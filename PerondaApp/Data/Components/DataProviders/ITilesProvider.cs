@@ -1,4 +1,4 @@
-﻿namespace PerondaApp.Components.DataProviders;
+﻿namespace PerondaApp.Data.Components.DataProviders;
 
 public interface ITilesProvider
 {

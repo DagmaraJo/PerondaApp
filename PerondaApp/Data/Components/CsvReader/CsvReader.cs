@@ -1,7 +1,7 @@
-﻿namespace PerondaApp.Components.CsvReader;
+﻿namespace PerondaApp.Data.Components.CsvReader;
 
-using PerondaApp.Components.CsvReader.Extensions;
-using PerondaApp.Components.CsvReader.Models;
+using PerondaApp.Data.Components.CsvReader.Extensions;
+using PerondaApp.Data.Components.CsvReader.Models;
 
 public class CsvReader : ICsvReader
 {

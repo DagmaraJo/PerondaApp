@@ -1,6 +1,6 @@
-﻿namespace PerondaApp.Components.DataProviders;
+﻿namespace PerondaApp.Data.Components.DataProviders;
 
-using PerondaApp.Components.DataProviders.Extensions;
+using PerondaApp.Data.Components.DataProviders.Extensions;
 using PerondaApp.Repositories;
 using System.Text;
 

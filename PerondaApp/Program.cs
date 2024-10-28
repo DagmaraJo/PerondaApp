@@ -1,205 +1,229 @@
-﻿using PerondaApp.Entities;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PerondaApp;
+//using PerondaApp.Data.Components.CsvReader;
+using PerondaApp.Data.Components.DataProviders;
+using PerondaApp.Entities;
 using PerondaApp.Repositories;
+using PerondaApp.Services;
 
 
-var employeeRepository = new ListRepository<Employee>();
+var services = new ServiceCollection();
+services.AddSingleton<IApp, App>();
+services.AddSingleton<IRepository<Employee>, ListRepository<Employee>>();
+services.AddSingleton<IRepository<BusinessPartner>, ListRepository<BusinessPartner>>();
+services.AddSingleton<IRepository<Tile>, ListRepository<Tile>>();
+services.AddSingleton<ITilesProvider, TilesProvider>();
+//services.AddSingleton<ICsvReader, CsvReader>();
+//services.AddSingleton<IRepository<IEntity>>();
+services.AddSingleton<IActions, Actions>();
+services.AddSingleton<IUserCommunication, UserCommunication>();
 
-employeeRepository.ItemAdded += EmployeeRepositoryOnItemAdded;
-employeeRepository.ItemRemoved += EmployeeRepositoryOnItemRemoved;
 
-void EmployeeRepositoryOnItemAdded(object? sender, Employee e)
-{
-    string text = $" [ {DateTime.UtcNow} | + | {e} added ]";
-    using (var writer = File.AppendText(IRepository<IEntity>.fileName))
-    {
-        writer.WriteLine(text);
-    }
-    Console.WriteLine(text);
-}
+var serviceProvider = services.BuildServiceProvider();
+var app = serviceProvider.GetService<IApp>()!;
+app.Run();
 
-void EmployeeRepositoryOnItemRemoved(object? sender, Employee e)
-{
-    string text = $" [ {DateTime.UtcNow} | - | {e} removed ]";
-    using (var writer = File.AppendText(IRepository<IEntity>.fileName))
-    {
-        writer.WriteLine(text);
-    }
-    Console.WriteLine(text);
-}
 
-static void AddEmployee(IRepository<Employee> employeeRepository)
-{
-    Console.WriteLine("Insert employee first name:");
-    var name = Console.ReadLine();
 
-    Console.WriteLine("Insert employee surname:");
-    var surname = Console.ReadLine();
 
-    Console.WriteLine("Insert employee position");
-    var position = Console.ReadLine();
+//var employeeRepository = new ListRepository<Employee>();
 
-    var employee = new Employee { FirstName = name, Surname = surname, Position = position };
+//employeeRepository.ItemAdded += EmployeeRepositoryOnItemAdded;
+//employeeRepository.ItemRemoved += EmployeeRepositoryOnItemRemoved;
 
-    employeeRepository.Add(employee);
-    employeeRepository.Save();
-}
+//void EmployeeRepositoryOnItemAdded(object? sender, Employee e)
+//{
+//    string text = $" [ {DateTime.UtcNow} | + | {e} added ]";
+//    using (var writer = File.AppendText(IRepository<IEntity>.fileName))
+//    {
+//        writer.WriteLine(text);
+//    }
+//    Console.WriteLine(text);
+//}
 
-static void RemoveEmployee(IRepository<Employee> employeeRepository)
-{
-    Console.WriteLine("Insert employee ID to remove:");
-    var input = Console.ReadLine();
-    var id = int.Parse(input);
+//void EmployeeRepositoryOnItemRemoved(object? sender, Employee e)
+//{
+//    string text = $" [ {DateTime.UtcNow} | - | {e} removed ]";
+//    using (var writer = File.AppendText(IRepository<IEntity>.fileName))
+//    {
+//        writer.WriteLine(text);
+//    }
+//    Console.WriteLine(text);
+//}
 
-    var employeeToRemove = employeeRepository.GetById(id);
+//static void AddEmployee(IRepository<Employee> employeeRepository)
+//{
+//    Console.WriteLine("Insert employee first name:");
+//    var name = Console.ReadLine();
 
-    if (employeeToRemove is not null)
-    {
-        employeeRepository.Remove(employeeToRemove);
-        employeeRepository.Save();
-    }
-}
+//    Console.WriteLine("Insert employee surname:");
+//    var surname = Console.ReadLine();
 
-var businessPartnerRepository = new ListRepository<BusinessPartner>();
-businessPartnerRepository.ItemAdded += BusinessPartnerRepositoryOnItemAdded;
-businessPartnerRepository.ItemRemoved += BusinessPartnerRepositoryOnItemRemoved;
+//    Console.WriteLine("Insert employee position");
+//    var position = Console.ReadLine();
 
-void BusinessPartnerRepositoryOnItemAdded(object? sender, BusinessPartner e)
-{
-    string text = $" [ {DateTime.UtcNow} | + | {e} added ]";
-    using (var writer = File.AppendText(IRepository<IEntity>.fileName))
-    {
-        writer.WriteLine(text);
-    }
-    Console.WriteLine(text);
-}
+//    var employee = new Employee { FirstName = name, Surname = surname, Position = position };
 
-void BusinessPartnerRepositoryOnItemRemoved(object? sender, BusinessPartner e)
-{
-    string text = $" [ {DateTime.UtcNow} | - | {e} removed ]";
-    using (var writer = File.AppendText(IRepository<IEntity>.fileName))
-    {
-        writer.WriteLine(text);
-    }
-    Console.WriteLine(text);
-}
+//    employeeRepository.Add(employee);
+//    employeeRepository.Save();
+//}
 
-static void AddBusinessPartner(IRepository<BusinessPartner> businessPartnerRepository)
-{
-    Console.WriteLine("Insert Business Partner first name:");
-    var name = Console.ReadLine();
+//static void RemoveEmployee(IRepository<Employee> employeeRepository)
+//{
+//    Console.WriteLine("Insert employee ID to remove:");
+//    var input = Console.ReadLine();
+//    var id = int.Parse(input);
 
-    Console.WriteLine("Insert Business Partner surname:");
-    var surname = Console.ReadLine();
+//    var employeeToRemove = employeeRepository.GetById(id);
 
-    Console.WriteLine("Insert Business Partner position");
-    var position = Console.ReadLine();
+//    if (employeeToRemove is not null)
+//    {
+//        employeeRepository.Remove(employeeToRemove);
+//        employeeRepository.Save();
+//    }
+//}
 
-    Console.Write("\n  Insert Business Partner company name:  ");
-    var companyName = Console.ReadLine();
+//var businessPartnerRepository = new ListRepository<BusinessPartner>();
+//businessPartnerRepository.ItemAdded += BusinessPartnerRepositoryOnItemAdded;
+//businessPartnerRepository.ItemRemoved += BusinessPartnerRepositoryOnItemRemoved;
 
-    var businessPartner = new BusinessPartner { FirstName = name, Surname = surname, Position = position, CompanyName = companyName };
+//void BusinessPartnerRepositoryOnItemAdded(object? sender, BusinessPartner e)
+//{
+//    string text = $" [ {DateTime.UtcNow} | + | {e} added ]";
+//    using (var writer = File.AppendText(IRepository<IEntity>.fileName))
+//    {
+//        writer.WriteLine(text);
+//    }
+//    Console.WriteLine(text);
+//}
 
-    businessPartnerRepository.Add(businessPartner);
-    businessPartnerRepository.Save();
-}
+//void BusinessPartnerRepositoryOnItemRemoved(object? sender, BusinessPartner e)
+//{
+//    string text = $" [ {DateTime.UtcNow} | - | {e} removed ]";
+//    using (var writer = File.AppendText(IRepository<IEntity>.fileName))
+//    {
+//        writer.WriteLine(text);
+//    }
+//    Console.WriteLine(text);
+//}
 
-static void RemoveBusinessPartner(IRepository<BusinessPartner> businessPartnerRepository)
-{
-    Console.WriteLine("Insert Business Partner ID to remove:");
-    var input = Console.ReadLine();
-    var id = int.Parse(input);
+//static void AddBusinessPartner(IRepository<BusinessPartner> businessPartnerRepository)
+//{
+//    Console.WriteLine("Insert Business Partner first name:");
+//    var name = Console.ReadLine();
 
-    var businessPartnerToRemove = businessPartnerRepository.GetById(id);
+//    Console.WriteLine("Insert Business Partner surname:");
+//    var surname = Console.ReadLine();
 
-    if (businessPartnerToRemove is not null)
-    {
-        businessPartnerRepository.Remove(businessPartnerToRemove);
-        businessPartnerRepository.Save();
-    }
-}
+//    Console.WriteLine("Insert Business Partner position");
+//    var position = Console.ReadLine();
 
-bool Exit = false;
-while (!Exit)
-{
-    Console.WriteLine("\n     MANAGMENT BRANCH - resource list" +
-        "\n" +
-        "   Choose option :\n" +
-        "      press A   - to viev all employees\n" +
-        "      press B   - to viev all business partners\n" +
-        "      press C   - to add new employees\n" +
-        "      press D   - to add new business partners\n" +
-        "      press E   - to remove employees\n" +
-        "      press F   - to remove business partners\n" +
-        "      press G   - to find employee by ID\n" +
-        "      press H   - to find business partner by ID\n\n" +
-        "                                                         press X - to leave\n\n");
+//    Console.Write("\n  Insert Business Partner company name:  ");
+//    var companyName = Console.ReadLine();
 
-    var userInput = Console.ReadLine()?.ToUpper();
-    switch (userInput)
-    {
-        case "A":
-            WriteAllToConsole(employeeRepository); break;
-        case "B":
-            WriteAllToConsole(businessPartnerRepository); break;
-        case "C":
-            AddEmployee(employeeRepository); break;
-        case "D":
-            AddBusinessPartner(businessPartnerRepository); break;
-        case "E":
-            RemoveEmployee(employeeRepository); break;
-        case "F":
-            RemoveBusinessPartner(businessPartnerRepository); break;
-        case "G":
-            GetEmployeeById(employeeRepository); break;
-        case "H":
-            GetBusinessPartnerById(businessPartnerRepository); break;
-        case "X":
-            Exit = true;
-            Environment.Exit(0); break;
-        default:
-            Console.Clear();
-            Console.WriteLine("\n\n\n      Invalid operation.    ");
-            break;
-    }
+//    var businessPartner = new BusinessPartner { FirstName = name, Surname = surname, Position = position, CompanyName = companyName };
 
-    static void WriteAllToConsole(IReadRepository<IEntity> repository)
-    {
-        var items = repository.GetAll();
-        foreach (var item in items)
-        {
-            Console.WriteLine(item);
-        }
-    }
+//    businessPartnerRepository.Add(businessPartner);
+//    businessPartnerRepository.Save();
+//}
 
-    static void GetEmployeeById(IRepository<Employee> employeeRepository)
-    {
-        Console.Write("Insert employee ID : ");
-        var input = Console.ReadLine();
-        var id = int.Parse(input);
+//static void RemoveBusinessPartner(IRepository<BusinessPartner> businessPartnerRepository)
+//{
+//    Console.WriteLine("Insert Business Partner ID to remove:");
+//    var input = Console.ReadLine();
+//    var id = int.Parse(input);
 
-        employeeRepository.Read();
-        var employee = employeeRepository.GetById(id);
+//    var businessPartnerToRemove = businessPartnerRepository.GetById(id);
 
-        if (employee is not null)
-        {
-            employeeRepository.GetById(id);
-            Console.WriteLine(employee);
-        }
-    }
+//    if (businessPartnerToRemove is not null)
+//    {
+//        businessPartnerRepository.Remove(businessPartnerToRemove);
+//        businessPartnerRepository.Save();
+//    }
+//}
 
-    static void GetBusinessPartnerById(IRepository<BusinessPartner> businessPartnerRepository)
-    {
-        Console.Write("Insert Business Partner ID : ");
-        var input = Console.ReadLine();
-        var id = int.Parse(input);
+//bool Exit = false;
+//while (!Exit)
+//{
+//    Console.WriteLine("\n     MANAGMENT BRANCH - resource list" +
+//        "\n" +
+//        "   Choose option :\n" +
+//        "      press A   - to viev all employees\n" +
+//        "      press B   - to viev all business partners\n" +
+//        "      press C   - to add new employees\n" +
+//        "      press D   - to add new business partners\n" +
+//        "      press E   - to remove employees\n" +
+//        "      press F   - to remove business partners\n" +
+//        "      press G   - to find employee by ID\n" +
+//        "      press H   - to find business partner by ID\n\n" +
+//        "                                                         press X - to leave\n\n");
 
-        businessPartnerRepository.Read();
-        var businessPartner = businessPartnerRepository.GetById(id);
+//    var userInput = Console.ReadLine()?.ToUpper();
+//    switch (userInput)
+//    {
+//        case "A":
+//            WriteAllToConsole(employeeRepository); break;
+//        case "B":
+//            WriteAllToConsole(businessPartnerRepository); break;
+//        case "C":
+//            AddEmployee(employeeRepository); break;
+//        case "D":
+//            AddBusinessPartner(businessPartnerRepository); break;
+//        case "E":
+//            RemoveEmployee(employeeRepository); break;
+//        case "F":
+//            RemoveBusinessPartner(businessPartnerRepository); break;
+//        case "G":
+//            GetEmployeeById(employeeRepository); break;
+//        case "H":
+//            GetBusinessPartnerById(businessPartnerRepository); break;
+//        case "X":
+//            Exit = true;
+//            Environment.Exit(0); break;
+//        default:
+//            Console.Clear();
+//            Console.WriteLine("\n\n\n      Invalid operation.    ");
+//            break;
+//    }
 
-        if (businessPartner is not null)
-        {
-            businessPartnerRepository.GetById(id);
-            Console.WriteLine(businessPartner);
-        }
-    }
-}
+//    static void WriteAllToConsole(IReadRepository<IEntity> repository)
+//    {
+//        var items = repository.GetAll();
+//        foreach (var item in items)
+//        {
+//            Console.WriteLine(item);
+//        }
+//    }
+
+//    static void GetEmployeeById(IRepository<Employee> employeeRepository)
+//    {
+//        Console.Write("Insert employee ID : ");
+//        var input = Console.ReadLine();
+//        var id = int.Parse(input);
+
+//        employeeRepository.Read();
+//        var employee = employeeRepository.GetById(id);
+
+//        if (employee is not null)
+//        {
+//            employeeRepository.GetById(id);
+//            Console.WriteLine(employee);
+//        }
+//    }
+
+//    static void GetBusinessPartnerById(IRepository<BusinessPartner> businessPartnerRepository)
+//    {
+//        Console.Write("Insert Business Partner ID : ");
+//        var input = Console.ReadLine();
+//        var id = int.Parse(input);
+
+//        businessPartnerRepository.Read();
+//        var businessPartner = businessPartnerRepository.GetById(id);
+
+//        if (businessPartner is not null)
+//        {
+//            businessPartnerRepository.GetById(id);
+//            Console.WriteLine(businessPartner);
+//        }
+//    }
+//}

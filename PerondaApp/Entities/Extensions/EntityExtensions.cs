@@ -1,7 +1,6 @@
-﻿namespace PerondaApp.Entities.Extensions;
+﻿using System.Text.Json;
 
-using System.Text.Json;
-using PerondaApp.Entities;
+namespace PerondaApp.Entities.Extensions;
 
 public static class EntityExtensions
 {

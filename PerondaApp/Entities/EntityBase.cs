@@ -1,6 +1,4 @@
-﻿using PerondaApp.Repositories;
-
-namespace PerondaApp.Entities
+﻿namespace PerondaApp.Entities
 {
     public abstract class EntityBase : IEntity
     {

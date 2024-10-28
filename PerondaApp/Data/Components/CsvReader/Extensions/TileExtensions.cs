@@ -1,6 +1,6 @@
-﻿namespace PerondaApp.Components.CsvReader.Extensions;
+﻿namespace PerondaApp.Data.Components.CsvReader.Extensions;
 
-using PerondaApp.Components.CsvReader.Models;
+using PerondaApp.Data.Components.CsvReader.Models;
 using System.Globalization;
 
 public static class TileExtensions

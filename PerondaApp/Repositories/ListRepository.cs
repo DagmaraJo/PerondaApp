@@ -1,4 +1,5 @@
-﻿using PerondaApp.Entities;
+﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using PerondaApp.Entities;
 using System.Text.Json;
 
 namespace PerondaApp.Repositories;
@@ -10,7 +11,8 @@ public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
 
     private List<T> _items = new();
 
-    private readonly string path = $"{typeof(T).Name}_save.json";
+    private readonly string path = $"Resources\\Files\\{typeof(T).Name}_save.json";
+    //private readonly string path = $"{typeof(T).Name}_save.json";
 
     public IEnumerable<T> GetAll()
     {
@@ -61,7 +63,33 @@ public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
 
     }
 
+    //public T CreateNewItem()
+    //{
+    //    return new T(newItem);
+    //}
+
     public void Remove(T item)
+    {
+        int newId;
+        if (_items.Count == 1)
+        {
+            newId = -1;
+        }
+        else
+        {
+            var currentId = _items
+               .OrderBy(item => item.Id)
+               .Select(item => item.Id)
+               .Last();
+            newId = currentId - 1;
+        }
+        item.Id = newId;
+
+        _items.Remove(item);
+        ItemRemoved?.Invoke(this, item);
+    }
+
+    public void Remove0(T item)
     {
         _items.Remove(item);
         ItemRemoved?.Invoke(this, item);

@@ -1,4 +1,4 @@
-﻿namespace PerondaApp.Components.DataProviders.Extensions;
+﻿namespace PerondaApp.Data.Components.DataProviders.Extensions;
 
 public static class TilesHelper //pomocnicza klasa do metod rozszerzalnych dla LINQ, które operuje na IEnumerable
 {
