@@ -36,44 +36,48 @@ public static class RepositoryExtensions
         _ = $" {items} removed";
     }
 
-    public static void AddBatchWithSaveAuditAndInfoColor<T>(this IRepository<T> repository, T[] items, string action)
+    public static void AddBatchWithSaveAuditAndInfoColor<T>(this IWriteRepository<T> repository, T[] items, string action)
         where T : class, IEntity
     {
         foreach (var item in items)
         {
             repository.Add(item);
-        }
-        repository.Save();
-        _ = $" {items} added";
-        if (items is not null)
-        {
+            action = $" {items} added ";
             action = $" | + |  added  ] ";
-            repository.SaveAuditItems(action, items);
-            //WriteItemAdded(e);
-
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"  new  {items}  successfully added  ");
-            Console.ResetColor();
-        }
-    }
-
-    public static void RemoveBatchInfoColor<T>(this IRepository<T> repository, T[] items, string action)
-    where T : class, IEntity
-    {
-        foreach (var item in items)
-        {
-            repository.Remove(item);
         }
         repository.Save();
         repository.SaveAuditItems(action, items);
+        //_ = $" {items} added";
+        //if (items is not null)
+        //{
+        //    //_ = $" | + |  added  ] ";
+        //    repository.SaveAuditItems(_, items);
+        //    //WriteItemAdded(e);
 
-        if (items is not null)
-        {
-            action = $" | + | removed ] ";
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"    {items}   just REMOVED");
-            Console.ResetColor();
-        }
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"  new  {items}  successfully added  ");
+        Console.ResetColor();
+        //}
     }
+
+    //public static void RemoveBatchInfoColor<T>(this IRepository<T> repository, T[] items, string action)
+    //where T : class, IEntity
+    //{
+    //    foreach (var item in items)
+    //    {
+    //        repository.Remove(item);
+    //        action = $" | + | removed ] ";
+    //    }
+    //    repository.Save();
+    //    repository.SaveAuditItems(action, items);
+
+    //    //if (items is not null)
+    //    //{
+    //    //    action = $" | + | removed ] ";
+
+    //    Console.ForegroundColor = ConsoleColor.Red;
+    //    Console.WriteLine($"    {items}   just REMOVED");
+    //    Console.ResetColor();
+    //    //}
+    //}
 }

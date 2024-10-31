@@ -2,8 +2,6 @@
 {
     public class BusinessPartner : Person, IEntity
     {
-        public string? CompanyName { get; set; }
-
-        public override string ToString() => base.ToString() + $"  @ {Position} -- {CompanyName}  * {GetType().Name}  ";
+        public override string ToString() => $" {GetType().Name} " + base.ToString() + $"  @ {Position} -- {Company}";
     }
 }

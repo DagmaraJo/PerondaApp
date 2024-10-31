@@ -1,6 +1,5 @@
 ﻿using PerondaApp.Entities;
 using PerondaApp.Repositories;
-using System.Text.Json;
 
 namespace PerondaApp.Services;
 
@@ -31,27 +30,20 @@ public class Actions : IActions
         _tileRepository.ItemAdded += TileRepositoryOnItemAdded;
         _tileRepository.ItemRemoved += TileRepositoryOnItemRemoved;
     }
+    //public void SubscribeToEvents()
+    //{
+    //    _employeeRepository.ItemAdded += (sender, e) => SaveItemAddedInAudit(e);
 
-    private void WriteItemAdded(object e)
-    {
-        Console.ForegroundColor = ConsoleColor.Green;
-        string s = $" | + | {e.GetType} ADDED";
-        Console.WriteLine(s);
-        //AddAuditInfo(e, "ADDED");
+    //    _businessPartnerRepository.ItemAdded += (sender, e) => SaveItemAddedInAudit(e);
 
-        string text = $" [ {DateTime.UtcNow} | + | {e} added ]";
+    //    _tileRepository.ItemAdded += (sender, e) => SaveItemAddedInAudit(e);
 
-        //Console.WriteLine($" {e.GetType} successfully.\n");
-        Console.ResetColor();
-    }
+    //    _employeeRepository.ItemRemoved += (sender, e) => SaveItemAddedInAudit(e);
 
-    private void WriteItemRemoved(object e)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        string s = $" | - | {e.GetType} REMOVED";
-        Console.WriteLine($" {s} successfully");
-        Console.ResetColor();
-    }
+    //    _businessPartnerRepository.ItemRemoved += (sender, e) => SaveItemAddedInAudit(e);
+
+    //    _tileRepository.ItemRemoved += (sender, e) => SaveItemAddedInAudit(e);
+    //}
 
     void EmployeeRepositoryOnItemAdded(object? sender, Employee e)
     {
@@ -66,11 +58,6 @@ public class Actions : IActions
     private void EmployeeRepositoryOnItemAdded2(object? sender, Employee e) // void _2
     {
         SaveActionInAuditFile(s);
-        WriteItemAdded(e);
-        //AddAuditInfo(e, "ADDED");
-        //Console.ForegroundColor = ConsoleColor.Green;
-        //Console.WriteLine($" {e.GetType} successfully.\n");
-        //Console.ResetColor();
     }
 
     //void EmployeeRepositoryOnItemRemoved(object? sender, Employee e)
@@ -144,7 +131,7 @@ public class Actions : IActions
     {
         using (var writer = File.AppendText(IRepository<IEntity>.fileName))
         {
-            writer.WriteLine($"  [ {DateTime.UtcNow}  {s} ]");
+            writer.WriteLine($"  [ {DateTime.UtcNow} {e} {s} ]");
 
 
             //string text = $" [ {DateTime.UtcNow} | + | {e} added ]";
@@ -172,25 +159,4 @@ public class Actions : IActions
             //    Console.WriteLine(text);
         }
     }
-
-    static void ItemAddedCalback(object item)
-    {
-        string s = $" {item} added";
-
-        Console.WriteLine(s);
-    }
-
-    //private void AddAuditInfo<T>(T e, string info) where T : class, IEntity
-    //{
-    //    using (var writer = File.AppendText(IRepository<IEntity>.fileName))
-    //    {
-    //        writer.WriteLine($"[{DateTime.UtcNow}]\t{info} :\n    [{e}]");
-    //    }
-
-    //    using (StreamWriter writer = new StreamWriter(IRepository<IEntity>.fileName, true))
-    //    {
-    //        // zapisujemy nowe linie na początku pliku
-    //        writer.WriteLine($" [ {DateTime.UtcNow} | + | {info} {e} ]");
-    //    }
-    //}
 }

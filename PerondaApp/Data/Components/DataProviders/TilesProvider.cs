@@ -16,8 +16,8 @@ public class TilesProvider : ITilesProvider
     public List<string> GetUniqueTileColors()
     {
         var tiles = _tilesRepository.GetAll();
-        var colors = tiles.Select(x => x.Color).Distinct().ToList();
-        return colors;
+        var color = tiles.Select(x => x.Color).Distinct().ToList();
+        return color;
     }
 
     public decimal GetMinimumPriceOfAllTiles()

@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
-using PerondaApp.Entities;
+﻿using PerondaApp.Entities;
 using System.Text.Json;
 
 namespace PerondaApp.Repositories;
@@ -57,39 +56,13 @@ public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
         var itemById = _items.SingleOrDefault(item => item.Id == id);
         if (itemById == null)
         {
-            Console.WriteLine($"{typeof(T).Name} with ID {id} not found.");
+            Console.WriteLine($" {typeof(T).Name} with ID {id} not found.");
         }
         return itemById;
 
     }
 
-    //public T CreateNewItem()
-    //{
-    //    return new T(newItem);
-    //}
-
     public void Remove(T item)
-    {
-        int newId;
-        if (_items.Count == 1)
-        {
-            newId = -1;
-        }
-        else
-        {
-            var currentId = _items
-               .OrderBy(item => item.Id)
-               .Select(item => item.Id)
-               .Last();
-            newId = currentId - 1;
-        }
-        item.Id = newId;
-
-        _items.Remove(item);
-        ItemRemoved?.Invoke(this, item);
-    }
-
-    public void Remove0(T item)
     {
         _items.Remove(item);
         ItemRemoved?.Invoke(this, item);
@@ -116,6 +89,26 @@ public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
                 }
             }
 
+        }
+        return _items;
+    }
+
+    public IEnumerable<T> ItemsToList() // potrzebne ?
+    {
+        if (_items.Count == 0)
+        {
+            if (File.Exists(path))
+            {
+                var serializedItems = File.ReadAllText(path);
+                var deserializedItems = JsonSerializer.Deserialize<IEnumerable<T>>(serializedItems);
+                if (deserializedItems != null)
+                {
+                    foreach (var item in deserializedItems)
+                    {
+                        _items.Add(item);
+                    }
+                }
+            }
         }
         return _items;
     }
