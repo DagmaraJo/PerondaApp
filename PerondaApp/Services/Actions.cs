@@ -10,6 +10,9 @@ public class Actions : IActions
     private readonly IRepository<Tile> _tileRepository;
     //public const string fileName = "Resources\\Files\\audit.txt";
     public string s;
+    private readonly IRepository<IEntity> _repository;
+
+    public readonly List<Action> actions = new();
 
     public Actions(
         IRepository<Employee> employeeRepository,
@@ -21,44 +24,45 @@ public class Actions : IActions
         _tileRepository = tileRepository;
     }
 
-    public void SubscribeToEvents()
-    {
-        _employeeRepository.ItemAdded += EmployeeRepositoryOnItemAdded;
-        _employeeRepository.ItemRemoved += EmployeeRepositoryOnItemRemoved;
-        _businessPartnerRepository.ItemAdded += BusinessPartnerOnItemAdded;
-        _businessPartnerRepository.ItemRemoved += BusinessPartnerOnItemRemoved;
-        _tileRepository.ItemAdded += TileRepositoryOnItemAdded;
-        _tileRepository.ItemRemoved += TileRepositoryOnItemRemoved;
-    }
     //public void SubscribeToEvents()
     //{
-    //    _employeeRepository.ItemAdded += (sender, e) => SaveItemAddedInAudit(e);
+    //    _employeeRepository.ItemAdded += EmployeeRepositoryOnItemAdded;
+    //    _employeeRepository.ItemRemoved += EmployeeRepositoryOnItemRemoved;
+    //    _businessPartnerRepository.ItemAdded += BusinessPartnerOnItemAdded;
+    //    _businessPartnerRepository.ItemRemoved += BusinessPartnerOnItemRemoved;
+    //    _tileRepository.ItemAdded += TileRepositoryOnItemAdded;
+    //    _tileRepository.ItemRemoved += TileRepositoryOnItemRemoved;
+    //}
+    public void SubscribeToActions()
+    {
+        _repository.ItemAdded += (sender, e) => SaveActionInAudit(e,s);
+        _repository.ItemRemoved += (sender, e) => SaveActionInAudit(e,s);
 
-    //    _businessPartnerRepository.ItemAdded += (sender, e) => SaveItemAddedInAudit(e);
+        //_businessPartnerRepository.ItemAdded += (sender, e) => SaveItemAddedInAudit(e);
 
-    //    _tileRepository.ItemAdded += (sender, e) => SaveItemAddedInAudit(e);
+        //_tileRepository.ItemAdded += (sender, e) => SaveItemAddedInAudit(e);
 
-    //    _employeeRepository.ItemRemoved += (sender, e) => SaveItemAddedInAudit(e);
+        //_employeeRepository.ItemRemoved += (sender, e) => SaveItemAddedInAudit(e);
 
-    //    _businessPartnerRepository.ItemRemoved += (sender, e) => SaveItemAddedInAudit(e);
+        //_businessPartnerRepository.ItemRemoved += (sender, e) => SaveItemAddedInAudit(e);
 
-    //    _tileRepository.ItemRemoved += (sender, e) => SaveItemAddedInAudit(e);
+        //_tileRepository.ItemRemoved += (sender, e) => SaveItemAddedInAudit(e);
+    }
+
+    //void EmployeeRepositoryOnItemAdded(object? sender, Employee e)
+    //{
+    //    string text = $" [ {DateTime.UtcNow} | + | {e} added ]";
+    //    using (var writer = File.AppendText(IRepository<IEntity>.fileName))
+    //    {
+    //        writer.WriteLine(text);
+    //    }
+    //    Console.WriteLine(text);
     //}
 
-    void EmployeeRepositoryOnItemAdded(object? sender, Employee e)
-    {
-        string text = $" [ {DateTime.UtcNow} | + | {e} added ]";
-        using (var writer = File.AppendText(IRepository<IEntity>.fileName))
-        {
-            writer.WriteLine(text);
-        }
-        Console.WriteLine(text);
-    }
-
-    private void EmployeeRepositoryOnItemAdded2(object? sender, Employee e) // void _2
-    {
-        SaveActionInAuditFile(s);
-    }
+    //private void EmployeeRepositoryOnItemAdded2(object? sender, Employee e) // void _2
+    //{
+    //    SaveActionInAuditFile(s);
+    //}
 
     //void EmployeeRepositoryOnItemRemoved(object? sender, Employee e)
     //{
@@ -131,7 +135,7 @@ public class Actions : IActions
     {
         using (var writer = File.AppendText(IRepository<IEntity>.fileName))
         {
-            writer.WriteLine($"  [ {DateTime.UtcNow} {e} {s} ]");
+            writer.WriteLine($"  [ {DateTime.UtcNow} {s} {e} ]");
 
 
             //string text = $" [ {DateTime.UtcNow} | + | {e} added ]";
@@ -141,6 +145,7 @@ public class Actions : IActions
             //    }
             //    Console.WriteLine(text);
         }
+        //WriteItemAdded(e);
     }
 
     private void AddAuditInfo<T>(T e, string info) where T : class, IEntity
@@ -158,5 +163,24 @@ public class Actions : IActions
             //    }
             //    Console.WriteLine(text);
         }
+    }
+
+    static void WriteInfoBack(object? sender, string i)
+    {
+        
+    }
+
+    static void WriteItemAdded(object e)
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"  new  {e}  successfully added  ");
+        Console.ResetColor();
+    }
+
+    static void WriteItemRemoved(object e)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($" {e} just REMOVED");
+        Console.ResetColor();
     }
 }

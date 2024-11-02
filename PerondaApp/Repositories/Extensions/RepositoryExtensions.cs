@@ -42,7 +42,7 @@ public static class RepositoryExtensions
         foreach (var item in items)
         {
             repository.Add(item);
-            action = $" {items} added ";
+            //action = $" {items} added ";
             action = $" | + |  added  ] ";
         }
         repository.Save();
@@ -66,14 +66,14 @@ public static class RepositoryExtensions
     //    foreach (var item in items)
     //    {
     //        repository.Remove(item);
-    //        action = $" | + | removed ] ";
+    //        action = $" | - | removed ] ";
     //    }
     //    repository.Save();
     //    repository.SaveAuditItems(action, items);
 
     //    //if (items is not null)
     //    //{
-    //    //    action = $" | + | removed ] ";
+    //    //    action = $" | - | removed ] ";
 
     //    Console.ForegroundColor = ConsoleColor.Red;
     //    Console.WriteLine($"    {items}   just REMOVED");

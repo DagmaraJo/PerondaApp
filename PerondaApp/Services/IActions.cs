@@ -2,7 +2,7 @@
 
 public interface IActions
 {
-    void SubscribeToEvents();
+    void SubscribeToActions();
 }
 
 

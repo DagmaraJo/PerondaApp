@@ -28,7 +28,7 @@ public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
                 }
             }
         }
-        return _items;
+        return _items;   //  return _items.ToList()
     }
 
     public void Add(T item)
@@ -88,28 +88,34 @@ public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
                     _items.Add(item);
                 }
             }
-
         }
         return _items;
     }
 
-    public IEnumerable<T> ItemsToList() // potrzebne ?
+    //public int GetListCount()
+    //{
+    //    return Read().ToList().Count;
+    //}
+    ////SqlRepo
+
+    public int GetListCount()   // ?
     {
         if (_items.Count == 0)
         {
             if (File.Exists(path))
             {
-                var serializedItems = File.ReadAllText(path);
-                var deserializedItems = JsonSerializer.Deserialize<IEnumerable<T>>(serializedItems);
-                if (deserializedItems != null)
+                var objectsSerialized = File.ReadAllText(path);
+                var deserializedObjects = JsonSerializer.Deserialize<IEnumerable<T>>(objectsSerialized);
+                if (deserializedObjects is not null)
                 {
-                    foreach (var item in deserializedItems)
+                    _items = new List<T>();
+                    foreach (var items in deserializedObjects)
                     {
-                        _items.Add(item);
+                        _items.Add(items);
                     }
                 }
             }
         }
-        return _items;
+        return _items.Count;
     }
 }
