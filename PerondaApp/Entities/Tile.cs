@@ -19,7 +19,7 @@ public class Tile: EntityBase, IEntity
 
     public decimal? TotalSales { get; set; }
 
-    public new string FullName => $"  Collection {Name}  ♦ {Color},  type_ {Type} //dimensions : {Size}";
+    public string FullName => $"  Collection {Name}  ♦ {Color},  type_ {Type} //dimensions : {Size}";
 
 
     #region ToString Override
@@ -31,8 +31,8 @@ public class Tile: EntityBase, IEntity
         sb.AppendLine($"                Collection  {Name}   ♦  Color : {Color}\n\t");
         sb.AppendLine($"                       Type : {Type}\n");
         sb.AppendLine($"                                                   dimensions : {Size}");
-        sb.AppendLine($"                                         Price : {ListPrice:c}");
-        sb.AppendLine($"                                          Cost : {StandardCost:c}");
+        sb.AppendLine($"                Price : {ListPrice:c}");
+        sb.AppendLine($"                 Cost : {StandardCost:c}");
 
         if (NameLength.HasValue) 
         { 
@@ -45,27 +45,4 @@ public class Tile: EntityBase, IEntity
         return sb.ToString();
     }
     #endregion
-
-    //#region ToString Override
-    //public override string ToString()
-    //{
-    //    StringBuilder sb = new(1024);
-
-    //    sb.AppendLine($" ID: {Id}     Collection ♦ {FullName},   dimensions : {Size} ");
-    //    sb.AppendLine($"  Color : {Color} ,   Type : {Type},   dimensions : {Size}");
-    //    sb.AppendLine($"   Cost : {StandardCost:c}    Price : {ListPrice:c}");
-
-    //    if (NameLength.HasValue)
-    //    {
-    //        sb.AppendLine($"    Name Length : {NameLength}");
-    //    }
-    //    if (TotalSales.HasValue)
-    //    {
-    //        sb.AppendLine($"    Total Sales : {TotalSales:c}");
-    //    }
-    //    return sb.ToString();
-    //}
-    //#endregion
-    //public override string ToString() => $" {GetType().Name} " + base.ToString() + $"  @ {Position} -- {Company}";
-    public string AuditText => $" {GetType().Name} " + base.ToString();
 }

@@ -11,7 +11,6 @@ public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
     private List<T> _items = new();
 
     private readonly string path = $"Resources\\Files\\{typeof(T).Name}_save.json";
-    //private readonly string path = $"{typeof(T).Name}_save.json";
 
     public IEnumerable<T> GetAll()
     {
@@ -28,7 +27,7 @@ public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
                 }
             }
         }
-        return _items;   //  return _items.ToList()
+        return _items;
     }
 
     public void Add(T item)
@@ -92,13 +91,7 @@ public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
         return _items;
     }
 
-    //public int GetListCount()
-    //{
-    //    return Read().ToList().Count;
-    //}
-    ////SqlRepo
-
-    public int GetListCount()   // ?
+    public int GetListCount()
     {
         if (_items.Count == 0)
         {
