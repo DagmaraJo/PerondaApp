@@ -1,4 +1,4 @@
-﻿namespace PerondaApp;
+﻿namespace PerondaApp.Services;
 
 public interface IApp
 {
