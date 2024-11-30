@@ -267,7 +267,7 @@ public class TilesProvider : ITilesProvider
         return tiles.ByColor(color).ToList();  //return tiles.ByColor("Gray").ToList();
     }
 
-    public List<Tile> WhereMaterialIs(string material) // nie puszczać tego - helper
+    public List<Tile> WhereMaterialIs(string material)
     {
         var tiles = _tilesRepository.GetAll();
         return tiles

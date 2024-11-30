@@ -10,7 +10,7 @@ public interface ITilesProvider
 
     List<string> GetUniqueTileColors();
 
-    List<Tile> GetSpecificColumns1();
+    //List<Tile> GetSpecificColumns1();
 
     string AnonymusClassInStringFormat();
 

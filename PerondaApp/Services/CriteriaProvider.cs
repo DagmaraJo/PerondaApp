@@ -1,4 +1,5 @@
-﻿using PerondaApp.Data.Components.DataProviders;
+﻿using DocumentFormat.OpenXml.Office2013.Word;
+using PerondaApp.Data.Components.DataProviders;
 using static PerondaApp.Resources.SampleTiles;
 
 namespace PerondaApp.Services;
@@ -32,7 +33,7 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
                     break;
                 case "2":
                     WritelineColor("    _Display  All  Tile  Names_\n", ConsoleColor.DarkCyan);
-                    foreach (var tile in _tilesProvider.DistinctAllName()) //TakeTilesWhileNameStartsWith(string prefix)
+                    foreach (var tile in _tilesProvider.DistinctAllName())
                     {
                         Console.WriteLine(tile);
                     }
@@ -183,89 +184,24 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
                             Console.WriteLine($"        {tile.Name} ♦  Collection {tile.Collection} {tile.MoreDetails}\n");
                         }
                         break;
-                    case "X":
-                        break;
-                    default:
-                        WritelineColor("\n     Only  1 - 4  key can be used ", ConsoleColor.Red);
-                        continue;
-                }
-                if (material == "X")
-                {
-                    break;
                 }
             }
-            else 
+            if (material == "X")
             {
-                WritelineColor("\n     Only  1 - 4  key can be used ", ConsoleColor.Red);
+                return;
+            }
+            if (isParsed && materialValue > 7 || materialValue <= 0)
+            {
+                WritelineColor("\n     Only  1 - 7  key can be used", ConsoleColor.Red);
+                continue;
+            }
+            if (!isParsed)
+            {
+                WritelineColor("\n     Only  1 - 7  key can be used", ConsoleColor.Red);
                 continue;
             }
         }
     }
-
-    //private void Materials()
-    //{
-    //    WritelineColor($"     ___Tiles  Collections  List By Material Used___\n", ConsoleColor.DarkCyan);
-    //    foreach (var tile in _tilesProvider.DistinctByCollectionAndMaterial())
-    //    {
-    //        Console.WriteLine($" {tile.Material} :\n         Collection  {tile.Collection}\n");
-    //    }
-    //    WritelineColor("      __See Tiles Names & more details by Material : Enter 1 - 4     X - to leave\n 1_ terracotta  2_ porcelain  3_ stoneware  4_ white body\n", ConsoleColor.DarkCyan);
-    //    while (true)
-    //    {
-    //        var material = GetInputWrite("    search material : ").ToUpper();
-    //        int materialValue;
-    //        var isParsed = int.TryParse(material, out materialValue);
-    //        if (isParsed && materialValue > 0 && materialValue <= 4)
-    //        {
-    //            switch (material)
-    //            {
-    //                case "1":
-    //                    Console.WriteLine($" 1_ terracotta :\n");
-    //                    foreach (var tile in _tilesProvider.WhereMaterialIs("terracotta"))
-    //                    {
-    //                        Console.WriteLine($"        {tile.Name} ♦  Collection {tile.Collection} {tile.MoreDetails}\n");
-    //                    }
-    //                    break;
-    //                case "2":
-    //                    Console.WriteLine($" 2_ porcelain :\n");
-    //                    foreach (var tile in _tilesProvider.WhereMaterialIs("porcelain")) { Console.WriteLine(tile.FullName); }
-    //                    break;
-    //                case "3":
-    //                    Console.WriteLine(" 3_ stoneware :\n");
-    //                    foreach (var tile in _tilesProvider.WhereMaterialIs("stoneware")) { Console.WriteLine($"        {tile.Name} ♦  Collection {tile.Collection} {tile.MoreDetails}\n"); }
-    //                    break;
-    //                case "4":
-    //                    WritelineColor("  * Special ceramic-mix 'white body' used in individual Collections\n", ConsoleColor.DarkYellow);
-    //                    Console.WriteLine(" 4_ white body :\n");
-    //                    foreach (var tile in _tilesProvider.WhereMaterialIs("white body"))
-    //                    {
-    //                        Console.WriteLine($"        {tile.Name} ♦  Collection {tile.Collection} {tile.MoreDetails}\n");
-    //                    }
-    //                    break;
-    //                case "X":
-    //                    break;
-    //                default:
-    //                    WritelineColor("\n     Only  1 - 4  key can be used ", ConsoleColor.Red);
-    //                    continue;
-    //            } 
-    //        }
-    //        //else if (isParsed && materialValue > 4 || materialValue <= 0)
-    //        //{
-    //        //    WritelineColor("\n     Only  1 - 4  key can be used ", ConsoleColor.Red);
-    //        //    continue;
-    //        //}
-
-    //        if (material == "X")
-    //        {
-    //            break;
-    //        }
-    //        if (!isParsed)
-    //        {
-    //            WritelineColor("\n     Only  1 - 4  key can be used ", ConsoleColor.Red);
-    //            continue;
-    //        }
-    //    }
-    //}
 
     private void PatternMotifs()
     {
@@ -303,7 +239,7 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
                         break;
                     case "5":
                         Console.WriteLine(" 5_ patchwork :\n");
-                        foreach (var tile in _tilesProvider.WhereAppearanceIs("patchwork")) { Console.WriteLine($"{tile.FullName}\n"); }
+                        foreach (var tile in _tilesProvider.WhereAppearanceIs("patchwork")) { Console.WriteLine($"     {tile.FullName}\n"); }
                         Console.WriteLine(" 5_ patchwork, retro flowers :\n");
                         foreach (var tile in _tilesProvider.WhereAppearanceIs("patchwork, retro flowers")) { Console.WriteLine($"     {tile.FullName}\n"); }
                         Console.WriteLine(" 5_ retro pattern, embossed :\n");
@@ -334,14 +270,14 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
                         break;
                 }
             }
-            if (isParsed && motifValue > 4 || motifValue <= 0)
+            if (appearance == "X")
+            {
+                return;
+            }
+            if (isParsed && motifValue > 7 || motifValue <= 0)
             {
                 WritelineColor("\n     Only  1 - 7  key can be used", ConsoleColor.Red);
                 continue;
-            }
-            if (appearance == "X")
-            {
-                break;
             }
             if (!isParsed)
             {
