@@ -145,7 +145,7 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
     private void Materials()
     {
         WritelineColor($"     ___Tiles  Collections  List By Material Used___\n", ConsoleColor.DarkCyan);
-        foreach (var tile in _tilesProvider.DistinctByCollectionAndMaterial())
+        foreach (var tile in _tilesProvider.DistinctByCollectionOrderByMaterialThanByCollection())
         {
             Console.WriteLine($" {tile.Material} :\n         Collection  {tile.Collection}\n");
         }

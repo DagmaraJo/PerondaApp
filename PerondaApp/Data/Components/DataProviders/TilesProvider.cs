@@ -451,7 +451,7 @@ public class TilesProvider : ITilesProvider
             .ToList();
     }
 
-    public List<Tile> DistinctByCollectionAndMaterial()//
+    public List<Tile> DistinctByCollectionOrderByMaterialThanByCollection()
     {
         var tiles = _tilesRepository.GetAll();
         return tiles

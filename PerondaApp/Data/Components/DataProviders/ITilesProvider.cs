@@ -103,7 +103,7 @@ public interface ITilesProvider
 
     List<Tile> DistinctTilesByProducer();
 
-    List<Tile> DistinctByCollectionAndMaterial();
+    List<Tile> DistinctByCollectionOrderByMaterialThanByCollection();
 
     List<Tile> DistinctByNameThanByProducerAndCollection();
 
