@@ -16,7 +16,7 @@
 
         public string? EMail { get; private set; }
 
-        public string FullName => $" {FirstName} {Surname} ";
+        public new string FullName => $" {FirstName} {Surname} ";
 
         public override string ToString() => $"     {GetType().Name}     ID: {Id}  {FullName}   > {Position} -- {Company}";
     }

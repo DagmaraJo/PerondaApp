@@ -1,8 +1,8 @@
-﻿namespace PerondaApp.Data.Components.DataProviders;
-
-using PerondaApp.Data.Components.DataProviders.Extensions;
+﻿using PerondaApp.Data.Components.DataProviders.Extensions;
 using PerondaApp.Repositories;
 using System.Text;
+
+namespace PerondaApp.Data.Components.DataProviders;
 
 public class TilesProvider : ITilesProvider
 {
@@ -13,17 +13,29 @@ public class TilesProvider : ITilesProvider
         _tilesRepository = tilesRepository;
     }
 
+    public List<Tile> OrderByCollection() 
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles.OrderBy(x => x.Collection).ToList();
+    }
+
     public List<string> GetUniqueTileColors()
     {
         var tiles = _tilesRepository.GetAll();
         var color = tiles.Select(x => x.Color).Distinct().ToList();
-        return color;
+        return color!;
     }
 
     public decimal GetMinimumPriceOfAllTiles()
     {
         var tiles = _tilesRepository.GetAll();
-        return tiles.Select(x => x.ListPrice).Min();
+        return tiles.Select(tile => tile.ListPrice).Min();
+    }
+
+    public decimal GetMaximumPriceOfAllTiles()
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles.Select(x => x.ListPrice).Max();
     }
 
     public List<Tile> GetSpecificColumns()
@@ -33,40 +45,112 @@ public class TilesProvider : ITilesProvider
         {
             Id = tile.Id,
             Name = tile.Name,
-            Type = tile.Type
+            Location = tile.Location,
+            Instalator = tile.Instalator
         }).ToList();
 
         return list;
     }
 
-    public string AnonymusClassInString()
+    public List<Tile> GetSpecificColumns1()
+    {
+        var tiles = _tilesRepository.GetAll();
+        var list = tiles.Select(tile => new Tile
+        {
+            Id = tile.Id,
+            Name = tile.Name,
+            Location = tile.ToUse,
+            Instalator = tile.ToUse
+        }).Skip(5).ToList();
+
+        return list;
+    }
+
+    public string AnonymusClassInStringMy()
     {
         var tiles = _tilesRepository.GetAll();
         var list = tiles.Select(tile => new
         {
-            Identifier = tile.Id,
-            ProductName = tile.Name,
-            ProductSize = tile.Type,
+            tile.Id,
+            tile.Name,
+            tile.Collection,
+            tile.ManuFacturer,
+            tile.Instalator,
         });
 
         StringBuilder sb = new(2048);
         foreach (var tile in list)
         {
-            sb.AppendLine($"Proguct ID : {tile.Identifier}");
-            sb.AppendLine($"  Product Name : {tile.ProductName}");
-            sb.AppendLine($"  Product Size : {tile.ProductSize}");
+            sb.AppendLine($"   _________________________________________________{tile.ManuFacturer}");
+            sb.AppendLine($"   Product ID: {tile.Id}            ♦  {tile.Name}");
+            sb.AppendLine($"           Collection  {tile.Collection}\n");
         }
         return sb.ToString();
     }
 
-    public List<Tile> FilterTiles(decimal minPrice)
+    public string AnonymusClassInStringType()
+    {
+        var tiles = _tilesRepository.GetAll();
+        var list = tiles.Select(tile => new
+        {
+            tile.Type,
+            tile.Name,
+            tile.Collection,
+            tile.Id,
+        });
+
+        StringBuilder sb = new(2048);
+        foreach (var tile in list)
+        {
+            sb.AppendLine($"  Techn.Type:______{tile.Type}");
+            sb.AppendLine($"          ID:  {tile.Id}      Collection {tile.Collection}  ♦  {tile.Name}\n");
+        }
+        return sb.ToString();
+    }
+
+    public string AnonymusClassInStringFormat()
+    {
+        var tiles = _tilesRepository.GetAll();
+        var list = tiles.Select(tile => new
+        {
+            ProductSize = tile.Size,
+            ProductName = tile.Name,
+            Identifier = tile.Id,
+        });
+
+        StringBuilder sb = new(2048);
+        foreach (var tile in list)
+        {
+            sb.AppendLine($"  Product Size : {tile.ProductSize: cm}");
+            sb.AppendLine($"    Proguct ID : {tile.Identifier}");
+            sb.AppendLine($"  Product Name : {tile.ProductName}\n");
+        }
+        return sb.ToString();
+    }
+
+    public List<Tile> FilterTilesMoreExpensive(decimal minPrice)
     {
         var tiles = _tilesRepository.GetAll();
         var list = new List<Tile>();
 
         foreach (var tile in tiles)
         {
-            if (tile.ListPrice > minPrice)
+            if (tile.ListPrice >= minPrice)
+            {
+                list.Add(tile);
+            }
+        }
+        return list;
+    }
+
+    public List<Tile> FilterTilesCheaper(decimal maxCost)
+    {
+        var tiles = _tilesRepository.GetAll();
+        var list = new List<Tile>();
+
+        foreach (var tile in tiles)
+        {
+            if (tile.StandardCost <= maxCost)
             {
                 list.Add(tile);
             }
@@ -102,25 +186,116 @@ public class TilesProvider : ITilesProvider
             .OrderByDescending(x => x.Color)
             .ThenByDescending(x => x.Name)
             .ToList();
+    }
 
+    public List<Tile> OrderByProducentAndCollection() 
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            .OrderBy(x => x.ManuFacturer)
+            .ThenBy(x => x.Collection)
+            .ToList();
     }
 
     public List<Tile> WhereStartsWith(string prefix)
     {
         var tiles = _tilesRepository.GetAll();
-        return tiles.Where(x => x.Name.StartsWith(prefix)).ToList();
+        return tiles.Where(x => x.Location!.StartsWith(prefix)).ToList();
+    }
+
+    public List<Tile> DistinctTilesByInstal()
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            .DistinctBy(x => x.Instalator)
+            .OrderBy(x => x.Instalator)
+            .ThenBy(x => x.Location)
+            .ThenBy(x => x.Name)
+            .ThenBy(x => x.Collection)
+            .ToList();
+    }
+
+    public List<Tile> DistinctTilesByToUse1() // 1
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            .DistinctBy(x => x.ToUse)
+            .OrderBy(x => x.Name)
+            .ThenBy(x => x.Instalator)
+            //.ThenBy(x => x.Collection)
+            .ToList();
+    }
+
+    public List<Tile> DistinctTilesByToUse() // podmianka
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            .DistinctBy(x => x.ToUse)
+            .OrderBy(x => x.Instalator)
+            .ThenBy(x => x.Name)
+            //.ThenBy(x => x.Collection)
+            //.ThenBy(x => x.Name)
+            .ToList();
     }
 
     public List<Tile> WhereStartsWithAndCostIsGreaterThan(string prefix, decimal cost)
     {
         var tiles = _tilesRepository.GetAll();
-        return tiles.Where(x => x.Name.StartsWith(prefix) && x.StandardCost > cost).ToList();
+        return tiles.Where(x => x.Name!.StartsWith(prefix) && x.StandardCost > cost).ToList();
+    }
+
+    public List<Tile> TilesMinPrice(decimal minPrice) ////////
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles.OrderBy(x => x.ListPrice)
+            .Where(x => x.ListPrice >= minPrice).ToList();
+    }
+
+    public List<Tile> OrderWhereIsMinimumPrice(decimal minPrice)
+    {
+        //GetMinimumPriceOfAllTiles();
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            //.Select(tile => tile.ListPrice).Min()
+            .OrderBy(x => x.FullName)
+            .Where(tile => tile.ListPrice == minPrice).ToList();
     }
 
     public List<Tile> WhereColorIs(string color)
     {
         var tiles = _tilesRepository.GetAll();
         return tiles.ByColor(color).ToList();  //return tiles.ByColor("Gray").ToList();
+    }
+
+    public List<Tile> WhereMaterialIs(string material) // nie puszczać tego - helper
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            .ByMaterial(material).ToList();
+    }
+
+    public List<Tile> WhereShapeIs(string shape)
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles.ByShape(shape).ToList();
+    }
+
+    public List<Tile> WhereAppearanceIs(string appearance) // niezbyt, lecą wszystie Id
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles.ByAppearance(appearance).ToList();
+    }
+
+    public Tile FirstByMaterial(string material)
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles.First(x => x.Material == material); //System.InvalidOperationException: „Sequence contains no matching pasującego element nie zawiera
+    }
+
+    public Tile? FirstOrDefaultByMaterial(string material)
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles.FirstOrDefault(x => x.Material == material);
     }
 
     //teraz dopisane
@@ -163,10 +338,6 @@ public class TilesProvider : ITilesProvider
         return tiles.SingleOrDefault(x => x.Id == id);
     }
 
-
-
-
-
     public List<Tile> TakeTiles(int howMany)
     {
         var tiles = _tilesRepository.GetAll();
@@ -185,12 +356,21 @@ public class TilesProvider : ITilesProvider
             .ToList();
     }
 
-    public List<Tile> TakeTilesWhileNameStartsWith(string prefix) // weź tak dużo jak startują z danym prefiksem
+    public List<Tile> TakeTilesWhileNameStartsWith(string prefix)
     {
         var tiles = _tilesRepository.GetAll();
         return tiles
-            .OrderBy(x => x.Name)
-            .TakeWhile(x => x.Name.StartsWith(prefix))
+            .OrderBy(x => x.Collection)
+            .TakeWhile(x => x.Collection!.StartsWith(prefix))
+            .ToList();
+    }
+
+    public List<Tile> TakeTilesWhileToUseStartsWith(string prefix) // weź tak dużo jak startują z danym prefiksem
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            .OrderBy(x => x.ToUse)  // będzie ok??
+            .TakeWhile(tile => tile.Instalator!.StartsWith(prefix))
             .ToList();
     }
 
@@ -208,7 +388,7 @@ public class TilesProvider : ITilesProvider
         var tiles = _tilesRepository.GetAll();
         return tiles
             .OrderBy(x => x.Name)
-            .SkipWhile(x => x.Name.StartsWith(prefix))
+            .SkipWhile(x => x.Name!.StartsWith(prefix))
             .ToList();
     }
 
@@ -216,18 +396,148 @@ public class TilesProvider : ITilesProvider
     {
         var tiles = _tilesRepository.GetAll();
         return tiles
-            .Select(x => x.Color)
+            .Select(x => x.Color!)
             .Distinct()
             .OrderBy(c => c)
             .ToList();
     }
 
-    public List<Tile> DistinctTilesByColor()
+    public List<string> DistinctAllToUse1() //  D..All..se 1 
     {
         var tiles = _tilesRepository.GetAll();
         return tiles
-            .DistinctBy(x => x.Color)
-            .OrderBy(x => x.Color)
+            .Select(x => x.ToUse!)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+    }
+
+    public List<string> DistinctAllToUseInstal()
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            .Select(x => x.Instalator!)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+    }
+    public List<string> DistinctAllToUse()
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            .Select(x => x.Location!)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+    }
+
+    public List<string> DistinctAllNameOrdeByMaterial()
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            .Select(x => x.Name!)
+            .Distinct()
+            .OrderBy( y => y)
+            .OrderBy(c => c)
+            .ToList();
+    }
+
+    public List<string> DistinctAllName()// super
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            .Select(x => x.Name!)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+    }
+
+    public List<string> DistinctAllProducer()
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            .Select(x => x.Collection!)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+    }
+
+    public List<Tile> DistinctByCollectionAndMaterial()//
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            .DistinctBy(x => x.Collection)
+            .OrderBy(c => c.Material)
+            .ThenBy(x => x.Collection)
+            .ToList();
+
+            //.DistinctBy(x => x.Name)
+            //.OrderBy(c => c.Material)
+            //.ThenBy(x => x.Collection)
+            //.ToList();
+    }
+
+    public List<Tile> DistinctTilesByProducer()//
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            //.Select(x => x.Collection!)
+            //.Distinct()
+            .DistinctBy(x => x.Collection)
+            .OrderBy(c => c.ManuFacturer)
+            .ThenBy(x => x.Collection) // 2 wersja z tą dopisaną linijką - czy teraz będą kolekcje alfabet?
+            .ToList();
+    }
+    public List<Tile> DistinctByNameThanByProducerAndCollection()
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            //.Select(x => x.Collection!)  2
+            .DistinctBy(x => x.Name)
+            .OrderBy(x => x.ManuFacturer)
+            .ThenBy(x => x.Collection)
+            .OrderBy(c => c.Name)
+            .ToList();
+
+        ////.Select(x => x.Collection!)   1
+        //    .DistinctBy(x => x.Name)
+        //    .DistinctBy(x => x.Collection)
+        //    .OrderBy(c => c.ManuFacturer)
+        //    .ToList();
+    }
+
+    public List<Tile> DistinctTilesByColor() // CUCOWNIE
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            //.DistinctBy(x => x.Color)
+            //.DistinctBy(x => x.Name)  // dopisane, czy doda resztę nazw ? nie
+            //.OrderBy(x => x.Color)
+            //.ToList();
+
+            //.DistinctBy(x => x.Name)
+            //.DistinctBy(x => x.Color)  // dopisane, czy doda resztę nazw ? nie
+            //.OrderBy(x => x.Color)
+            //.ToList();
+            .DistinctBy(x => x.Name)
+            .OrderBy(x => x.Color)  // dopisane, czy doda resztę nazw ? TAA
+            .ThenBy(x => x.Name)
+            .ToList();
+
+    }
+
+    public List<Tile> DistinctTilesByMaterial()
+    {
+        var tiles = _tilesRepository.GetAll();
+        return tiles
+            //.DistinctBy(x => x.Material)  1 ok
+            //.OrderBy(x => x.Material)
+            //.ToList();
+
+            .DistinctBy(x => x.Name)
+            .OrderBy(x => x.Material)
+            .ThenBy(x => x.Collection)
+            .ThenBy(x => x.Name)
             .ToList();
     }
 

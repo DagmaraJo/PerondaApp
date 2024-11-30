@@ -2,4 +2,5 @@
 
 public interface IUserCommunication
 {
+    public void SelectSection();
 }

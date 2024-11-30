@@ -9,13 +9,8 @@ public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
     public event EventHandler<T>? ItemRemoved;
 
     private List<T> _items = new();
-    private Action<IRepository<IEntity>> choiceOption;
+    
     private readonly string path = $"Resources\\Files\\{typeof(T).Name}_save.json";
-
-    public ListRepository(Action<IRepository<IEntity>> choiceOption)
-    {
-        this.choiceOption = choiceOption;
-    }
 
     public IEnumerable<T> GetAll()
     {
@@ -63,7 +58,6 @@ public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
             Console.WriteLine($" {typeof(T).Name} with ID {id} not found.");
         }
         return itemById;
-
     }
 
     public void Remove(T item)

@@ -2,27 +2,41 @@
 
 public interface ITilesProvider
 {
-    List<Tile> FilterTiles(decimal minPrice);
+    List<Tile> FilterTilesMoreExpensive(decimal minPrice);
+
+    List<Tile> FilterTilesCheaper(decimal maxPrice);
 
     // select
 
     List<string> GetUniqueTileColors();
 
-    List<Tile> GetSpecificColumns();
+    List<Tile> GetSpecificColumns1();
 
-    string AnonymusClassInString();
+    string AnonymusClassInStringFormat();
+
+    string AnonymusClassInStringMy();
+
+    string AnonymusClassInStringType();
 
     decimal GetMinimumPriceOfAllTiles();
+
+    decimal GetMaximumPriceOfAllTiles();
 
     // order by
 
     List<Tile> OrderByName();
+
+    List<Tile> OrderByCollection();
 
     List<Tile> OrderByNameDescending();
 
     List<Tile> OrderByColorAndName();
 
     List<Tile> OrderByColorAndNameDesc();
+
+    List<Tile> OrderWhereIsMinimumPrice(decimal minPrice);
+
+    List<Tile> OrderByProducentAndCollection();
 
     // where
 
@@ -32,11 +46,21 @@ public interface ITilesProvider
 
     List<Tile> WhereColorIs(string color);
 
+    List<Tile> WhereMaterialIs(string material);
+    
+    List<Tile> WhereShapeIs(string shape);
+
+    List<Tile> WhereAppearanceIs(string appearance);
+
     // first, last, single
 
     Tile FirstByColor(string color);
 
+    Tile FirstByMaterial(string material);
+
     Tile? FirstOrDefaultByColor(string color);
+
+    Tile? FirstOrDefaultByMaterial(string material);
 
     Tile FirstOrDefaultByColorWithDefault(string color);
 
@@ -54,6 +78,8 @@ public interface ITilesProvider
 
     List<Tile> TakeTilesWhileNameStartsWith(string prefix);
 
+    List<Tile> TakeTilesWhileToUseStartsWith(string prefix);
+
     // skip
 
     List<Tile> SkipTiles(int howMany);
@@ -64,7 +90,27 @@ public interface ITilesProvider
 
     List<string> DistinctAllColor();
 
+    List<string> DistinctAllName();
+
+    List<string> DistinctAllNameOrdeByMaterial();
+    List<string> DistinctAllToUse();
+    List<string> DistinctAllToUseInstal();
+
     List<Tile> DistinctTilesByColor();
+
+    List<Tile> DistinctTilesByToUse();
+
+    List<Tile> DistinctTilesByInstal();
+
+    List<Tile> DistinctTilesByMaterial();
+
+    List<string> DistinctAllProducer();
+
+    List<Tile> DistinctTilesByProducer();
+
+    List<Tile> DistinctByCollectionAndMaterial();
+
+    List<Tile> DistinctByNameThanByProducerAndCollection();
 
     // chunk
 
