@@ -431,17 +431,6 @@ public class TilesProvider : ITilesProvider
             .ToList();
     }
 
-    public List<string> DistinctAllNameOrdeByMaterial()
-    {
-        var tiles = _tilesRepository.GetAll();
-        return tiles
-            .Select(x => x.Name!)
-            .Distinct()
-            .OrderBy( y => y)
-            .OrderBy(c => c)
-            .ToList();
-    }
-
     public List<string> DistinctAllName()// super
     {
         var tiles = _tilesRepository.GetAll();
@@ -506,7 +495,7 @@ public class TilesProvider : ITilesProvider
         //    .ToList();
     }
 
-    public List<Tile> DistinctTilesByColor() // CUCOWNIE
+    public List<Tile> DistinctTilesByNameOrdrByColor() // CUCOWNIE
     {
         var tiles = _tilesRepository.GetAll();
         return tiles

@@ -49,56 +49,24 @@ public class Tile : EntityBase, IEntity
     {
         StringBuilder sb = new(1024);
 
-        sb.AppendLine($" ------------------------------------------Product ID : {Id}");
+        sb.AppendLine($" Product ID : {Id}");
         sb.AppendLine($"                             ♦  {Name} ");
-        sb.AppendLine($"     Collection {Collection}                    techn/Type__{Type}____");
-        sb.AppendLine($" ________________________________spec/infnnnnnnnnnnnnnn_____________________{ManuFacturer}");
-        sb.AppendLine($"                                   intended to use : {Location}");
-        sb.AppendLine($"                                       instalation : {Instalator}");
-        sb.AppendLine($"     {Material} tile");
-        sb.AppendLine($"                                             color : {Color}");
+        sb.AppendLine($"     Collection {Collection}                          techn/Type__{Type}____");
+        sb.AppendLine($" _______________________________________________spec/infnnnnnnnnnnnnnn_____________________{ManuFacturer}");
+        sb.AppendLine($"                                       intended to use : {Location}");
+        sb.AppendLine($"                                           instalation : {Instalator}");
+        sb.AppendLine($"     {Material} tile                                                          {Shape}");
+        sb.AppendLine($"                                                 color : {Color}");
         sb.AppendLine($"          finish : {Finish}");
         sb.AppendLine($"                                                      format : {Size} cm");
         sb.AppendLine($"                                                      thickness : {Thickness: cm}");
         sb.AppendLine($"   pattern motif : {Appearance}");
-        sb.AppendLine($"                                             {Shape}");
-        sb.AppendLine($"                    ......................................................");
-        sb.AppendLine($"                                       .......Price : {ListPrice:c}.....Cost : {StandardCost:c}\n\t");
+        sb.AppendLine($"                   . . . . . . . . . . . . . . . . . ______________________________");
+        sb.AppendLine($"                                                    |     Price :          Cost :");
+        sb.AppendLine($"                                                    |   {ListPrice:c}      {StandardCost:c}");
+        sb.AppendLine($"                                                    |______________________________\n\n");
 
-        /*
-         * 
-         * sb.AppendLine($"mmmmmmmmmmmmmmmmm Collection {Collection} ^^^^^^^^^^^^^^spec/infmmmmmmmmmm");
-        sb.AppendLine($"                                      ♦  {Name}");
-        sb.AppendLine($" _____Product ID : {Id}_______________________________________________{ManuFacturer}");
-        sb.AppendLine($" ____techn/Type__{Type}");
-        sb.AppendLine($"                                       intended to use: {Location}    ");
-        sb.AppendLine($"                                               inst.__{Instalator}");
-        sb.AppendLine($"     {Material} tile");
-        sb.AppendLine($"                                              color : {Color}");
-        sb.AppendLine($"          finish : {Finish}");
-        sb.AppendLine($"                                                      format : {Size} cm");
-        sb.AppendLine($"                                                      thickness : {Thickness: cm}");
-        sb.AppendLine($"   pattern motif : {Appearance}");
-        sb.AppendLine($"                   {Shape}");
-        sb.AppendLine($"   -------------------------------------------Price :   {ListPrice:c}");
-        sb.AppendLine($"                                               Cost :   {StandardCost:c}\n\t");
-         * 
-         * 
-        sb.AppendLine($" {GetType().Name} ID : {Id}                         ♦  {Name}");
-        sb.AppendLine($"________________Collection  {Collection}   ♦  {Name} _____Type : {Type}\n\t");
-        sb.AppendLine($"                                ----------------------------{ManuFacturer}");
-        sb.AppendLine($"                                                            : {Location}");
-        sb.AppendLine($"                                            intended to use : {Instalator}");
-        sb.AppendLine($"      {Material} tile ,  {Finish} ");
-        sb.AppendLine($"                                                     Format : {Size} cm");
-        sb.AppendLine($"                                                  Thickness : {Thickness} cm");
-        sb.AppendLine($"  Motif : {Appearance} ");
-        sb.AppendLine($"                                                      Color : {Color}");
-        sb.AppendLine($"      __________________________________{Shape}");
-        sb.AppendLine($"      _____Producer {ManuFacturer}_______________________________");
-        sb.AppendLine($"                                            Price : {ListPrice:c}");
-        sb.AppendLine($"                                             Cost : {StandardCost:c}\n\t");
-        */
+
         if (NameLength.HasValue)
         {
             sb.AppendLine($"    Name Length : {NameLength}");

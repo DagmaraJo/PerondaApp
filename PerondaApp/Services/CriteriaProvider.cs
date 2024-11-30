@@ -1,6 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2013.Word;
-using PerondaApp.Data.Components.DataProviders;
-using static PerondaApp.Resources.SampleTiles;
+﻿using PerondaApp.Data.Components.DataProviders;
 
 namespace PerondaApp.Services;
 
@@ -69,7 +67,7 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
                     break;
                 case "C":
                     WritelineColor("\n    _The Colors appearing in individual Collections_\n", ConsoleColor.DarkCyan);
-                    foreach (var tile in _tilesProvider.DistinctTilesByColor())
+                    foreach (var tile in _tilesProvider.DistinctTilesByNameOrdrByColor())
                     {
                         Console.WriteLine($" {tile.Color} :\n                {tile.Name}  ♦  Collection {tile.Collection}\n");
                     }
@@ -188,16 +186,16 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
             }
             if (material == "X")
             {
-                return;
+                break;
             }
-            if (isParsed && materialValue > 7 || materialValue <= 0)
+            if (isParsed && materialValue > 4 || materialValue <= 0)
             {
-                WritelineColor("\n     Only  1 - 7  key can be used", ConsoleColor.Red);
+                WritelineColor("\n     Only  1 - 4  key can be used", ConsoleColor.Red);
                 continue;
             }
             if (!isParsed)
             {
-                WritelineColor("\n     Only  1 - 7  key can be used", ConsoleColor.Red);
+                WritelineColor("\n     Only  1 - 4  key can be used", ConsoleColor.Red);
                 continue;
             }
         }

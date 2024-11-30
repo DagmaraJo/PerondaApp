@@ -91,18 +91,13 @@ public interface ITilesProvider
     List<string> DistinctAllColor();
 
     List<string> DistinctAllName();
-
-    List<string> DistinctAllNameOrdeByMaterial();
     List<string> DistinctAllToUse();
     List<string> DistinctAllToUseInstal();
-
-    List<Tile> DistinctTilesByColor();
-
+    List<Tile> DistinctTilesByNameOrdrByColor();
     List<Tile> DistinctTilesByToUse();
-
     List<Tile> DistinctTilesByInstal();
 
-    List<Tile> DistinctTilesByMaterial();
+    //List<Tile> DistinctTilesByMaterial();
 
     List<string> DistinctAllProducer();
 
