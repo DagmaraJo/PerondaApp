@@ -49,13 +49,13 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
                     foreach (var tile in _tilesProvider.DistinctByNameThanByProducerAndCollection()) { Console.WriteLine(tile); }
                     break;
                 case "3":
-                    IntendentToUse();
+                    FindByToUse();
                     break;
                 case "U":
-                    IntendentToUseMore();
+                    FindByToUseMore();
                     break;
                 case "4":
-                    PatternMotifs();
+                    FindByMotifs();
                     break;
                 case "5":
                     WritelineColor("    _Available  Unique  Tile  Colors_\n", ConsoleColor.DarkCyan);
@@ -76,14 +76,14 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
                     CheckPrices();
                     break;
                 case "7":
-                    Materials();
+                    FindByMaterials();
                     break;
                 case "8":
                     WritelineColor("    _Types of Technologies used in Collections by ID Products, Colletions & Tile Names_\n", ConsoleColor.DarkCyan);
                     Console.WriteLine(_tilesProvider.AnonymusClassInStringType());
                     break;
                 case "9":
-                    Shapes();
+                    FindByShapes();
                     break;
                 case "10":
                     WritelineColor("    _Available  Formats  in Collections by ID Products, Colletions & Tile Names: _\n", ConsoleColor.DarkCyan);
@@ -99,7 +99,7 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
         }
     }
 
-    private void IntendentToUse()
+    private void FindByToUse()
     {
         WritelineColor("   _Specification of tiles in terms of application_", ConsoleColor.DarkCyan);
         Console.WriteLine("    use of tiles :\n");
@@ -115,7 +115,7 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
         WritelineColor("   Enter U - to see more abaut intendent tiles by application", ConsoleColor.DarkYellow);
     }
 
-    private void IntendentToUseMore()
+    private void FindByToUseMore()
     {
         WritelineColor("   _Specification of tiles in terms of application_\n\n", ConsoleColor.DarkCyan);
         WritelineColor($"        <<  INTERIOR  TILES \n", ConsoleColor.Green);
@@ -142,7 +142,7 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
         }
     }
 
-    private void Materials()
+    private void FindByMaterials()
     {
         WritelineColor($"     ___Tiles  Collections  List By Material Used___\n", ConsoleColor.DarkCyan);
         foreach (var tile in _tilesProvider.DistinctByCollectionOrderByMaterialThanByCollection())
@@ -201,7 +201,7 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
         }
     }
 
-    private void PatternMotifs()
+    private void FindByMotifs()
     {
         WritelineColor("   __Find  Tile  by  Patern  Motif_\n", ConsoleColor.DarkCyan);
         WritelineColor("   marble effect = 1\n   stone effect = 2\n   wood look = 3\n   handcrafted effect = 4\n   patchwork / retro patern = 5\n   mosaic look = 6\n   geometric pettern = 7", ConsoleColor.Gray);
@@ -285,7 +285,7 @@ public class CriteriaProvider : UserCommunicationBase, ICriteriaProvider
         }
     }
 
-    private void Shapes()
+    private void FindByShapes()
     {
         WritelineColor("    _Available  Unique  Tile  Shapes in some Collections_\n", ConsoleColor.DarkCyan);
         foreach (var tile in _tilesProvider.WhereShapeIs("profiled border"))

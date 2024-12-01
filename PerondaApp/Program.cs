@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PerondaApp.Data.Components.CsvReader;
 using PerondaApp.Data.Components.DataProviders;
 using PerondaApp.Entities;
 using PerondaApp.Repositories;
@@ -14,6 +15,7 @@ services.AddSingleton<IRepository<BusinessPartner>, ListRepository<BusinessPartn
 services.AddSingleton<IRepository<Tile>, ListRepository<Tile>>();
 services.AddSingleton<ITilesProvider, TilesProvider>();
 services.AddSingleton<ICriteriaProvider, CriteriaProvider>();
+services.AddSingleton<ICsvReader, CsvReader>();
 
 var serviceProvider = services.BuildServiceProvider();
 var app = serviceProvider.GetService<IApp>()!;

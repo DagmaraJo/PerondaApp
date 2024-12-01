@@ -4,7 +4,7 @@ using PerondaApp.Data.Components.CsvReader.Models;
 
 public interface ICsvReader
 {
-    List<Tile> ProcessTiles(string filePath);
+    List<Car> ProcessCars(string filePath);
 
     List<Manufacturer> ProcessManufacturers(string filePath);
 }

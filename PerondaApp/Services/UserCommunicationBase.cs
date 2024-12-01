@@ -27,7 +27,19 @@ public class UserCommunicationBase
         Console.WriteLine(text);
         Console.ResetColor();
     }
-     
+
+    public static void IntroText()
+    {
+        Console.WriteLine("\n\n" +
+                "                          Welcome to PerondaApp\n\n" +
+                "      The Assortment section presents all Pereonda tile collections\n " +
+                "             along with the possibility of placing orders.\n" +
+                "   The HR department handles data regarding employees and business partners\n" +
+                "         We invite you to familiarize yourself with the latest offer\n\n" +
+                "  -------------------------------------------------------------------------");
+    }
+
+
     public static void SelectSectionText()
     {
         Console.WriteLine(

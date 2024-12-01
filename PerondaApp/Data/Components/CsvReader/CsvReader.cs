@@ -5,24 +5,19 @@ using PerondaApp.Data.Components.CsvReader.Models;
 
 public class CsvReader : ICsvReader
 {
-    public List<Tile> ProcessTiles(string filePath) //procesowanie - obróbka pliku do odczytywania
+    public List<Car> ProcessCars(string filePath)
     {
         if (!File.Exists(filePath))
         {
-            return new List<Tile>();
+            return new List<Car>();
         }
-
-        var tiles = File.ReadAllLines(filePath) //string[]
+        var cars = File.ReadAllLines(filePath)
             .Skip(1)
-            .Where(x => x.Length > 1) //IEnumerable<string>
-            .ToTile();
+            .Where(x => x.Length > 1)
+            //.Select(x => new Car()) --> zamiast Select splitowanie jest w CarExtensins ToList()
+            .ToCar();
 
-        return tiles.ToList();
-
-        //var tiles = File.ReadAllLines(filePath)
-        //    .Skip(1)
-        //    .Where(x => x.Length > 1)
-        //    .Select(x => new Tile());
+        return cars.ToList();
     }
 
     public List<Manufacturer> ProcessManufacturers(string filePath)
@@ -44,5 +39,10 @@ public class CsvReader : ICsvReader
                 };
             });
         return manufacturers.ToList();
+    }
+
+    public void ClueToMethods()
+    {
+
     }
 }
