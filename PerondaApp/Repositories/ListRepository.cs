@@ -90,7 +90,7 @@ public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
         return _items;
     }
 
-    public int GetListCount()
+    public int GetCount()
     {
         if (_items.Count == 0)
         {

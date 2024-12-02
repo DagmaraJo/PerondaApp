@@ -264,26 +264,26 @@ public class TilesProvider : ITilesProvider
     public List<Tile> WhereColorIs(string color)
     {
         var tiles = _tilesRepository.GetAll();
-        return tiles.ByColor(color).ToList();  //return tiles.ByColor("Gray").ToList();
+        return tiles.FilterByColor(color).ToList();  //return tiles.ByColor("Gray").ToList();
     }
 
     public List<Tile> WhereMaterialIs(string material)
     {
         var tiles = _tilesRepository.GetAll();
         return tiles
-            .ByMaterial(material).ToList();
+            .FilterByMaterial(material).ToList();
     }
 
     public List<Tile> WhereShapeIs(string shape)
     {
         var tiles = _tilesRepository.GetAll();
-        return tiles.ByShape(shape).ToList();
+        return tiles.FilterByShape(shape).ToList();
     }
 
-    public List<Tile> WhereAppearanceIs(string appearance) // niezbyt, lecą wszystie Id
+    public List<Tile> WhereAppearanceIs(string appearance)
     {
         var tiles = _tilesRepository.GetAll();
-        return tiles.ByAppearance(appearance).ToList();
+        return tiles.FilterByAppearance(appearance).ToList();
     }
 
     public Tile FirstByMaterial(string material)
@@ -397,16 +397,6 @@ public class TilesProvider : ITilesProvider
         var tiles = _tilesRepository.GetAll();
         return tiles
             .Select(x => x.Color!)
-            .Distinct()
-            .OrderBy(c => c)
-            .ToList();
-    }
-
-    public List<string> DistinctAllToUse1() //  D..All..se 1 
-    {
-        var tiles = _tilesRepository.GetAll();
-        return tiles
-            .Select(x => x.ToUse!)
             .Distinct()
             .OrderBy(c => c)
             .ToList();

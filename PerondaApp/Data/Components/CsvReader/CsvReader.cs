@@ -14,7 +14,6 @@ public class CsvReader : ICsvReader
         var cars = File.ReadAllLines(filePath)
             .Skip(1)
             .Where(x => x.Length > 1)
-            //.Select(x => new Car()) --> zamiast Select splitowanie jest w CarExtensins ToList()
             .ToCar();
 
         return cars.ToList();
@@ -39,10 +38,5 @@ public class CsvReader : ICsvReader
                 };
             });
         return manufacturers.ToList();
-    }
-
-    public void ClueToMethods()
-    {
-
     }
 }

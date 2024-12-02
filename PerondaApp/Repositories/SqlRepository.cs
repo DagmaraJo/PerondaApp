@@ -49,7 +49,7 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
         return _dbSet.ToList();
     }
 
-    public int GetListCount()
+    public int GetCount()
     {
         return Read().ToList().Count;
     }

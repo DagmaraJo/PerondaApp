@@ -1,63 +1,13 @@
-﻿using PerondaApp.Data.Components.CsvReader;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
-namespace PerondaApp.Services;
+namespace PerondaApp.Data.Components.CsvReader;
 
-public class App : IApp
+public class CsvReaderToXmlMethods : CsvReader, ICsvReader
 {
-    private readonly ICsvReader _csvReader;
-
-    public App(ICsvReader csvReader)
-    {
-        _csvReader = csvReader;
-    }
-
-    public void Run()
-    {
-        //CreateXml();
-
-        QeryXml();
-    }
-
-    private void CreateXml()
-    {
-        var manufacturers = _csvReader.ProcessManufacturers("Resources\\Files\\manufacturers.csv");
-        var cars = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
-
-        var document = new XDocument();
-        var records = new XElement("Manufacturers", manufacturers
-            .Select(m =>
-            new XElement("Manufacturer",
-               new XAttribute("Name", m.Name),
-                      new XAttribute("Country", m.Country),
-               new XElement("Cars",
-                   new XAttribute("country", m.Country),
-                          new XAttribute("CombinedSum",
-                          cars.Where(c => c.Manufacturer == m.Name).Sum(c => c.Combined)),
-                          cars.Where(c => c.Manufacturer == m.Name)
-                          .Select(c =>
-                       new XElement("Car",
-                       new XAttribute("Model", c.Name),
-                              new XAttribute("Combined", c.Combined)
-                   )))
-           )));
-
-        document.Add(records);
-        document.Save("Resources\\Files\\fuelSchemat.xml");
-        Console.WriteLine(records);
-    }
-
-    private static void QeryXml() 
-    {
-        var document = XDocument.Load("Resources\\Files\\fuelSchemat.xml");
-
-        Console.WriteLine(document);
-    }
-
     public void QeryCsvOrderAverageCombinedByManufacturer()
     {
-        var cars = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
-        var manufacturers = _csvReader.ProcessManufacturers("Resources\\Files\\manufacturers.csv");
+        var cars = ProcessCars("Resources\\Files\\fuel.csv");
+        var manufacturers = ProcessManufacturers("Resources\\Files\\manufacturers.csv");
 
         var groups = cars.GroupBy(x => x.Manufacturer)
             .Select(g => new
@@ -78,8 +28,8 @@ public class App : IApp
 
     public void QeryCsvCarCombinedStatisticsOrderByManufacturer()
     {
-        var cars = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
-        var manufacturers = _csvReader.ProcessManufacturers("Resources\\Files\\manufacturers.csv");
+        var cars = ProcessCars("Resources\\Files\\fuel.csv");
+        var manufacturers = ProcessManufacturers("Resources\\Files\\manufacturers.csv");
 
         var groups = manufacturers.GroupJoin(
             cars,
@@ -88,8 +38,8 @@ public class App : IApp
             (m, g) =>
             new
             {
-                Manufacturer = m,
-                Cars = g
+                Manufacturer = m, 
+                Cars = g     
             })
             .OrderBy(x => x.Manufacturer.Name);
 
@@ -106,8 +56,8 @@ public class App : IApp
 
     public void QeryCsvOrderDescCarsCombinedInCountry()
     {
-        var cars = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
-        var manufacturers = _csvReader.ProcessManufacturers("Resources\\Files\\manufacturers.csv");
+        var cars = ProcessCars("Resources\\Files\\fuel.csv");
+        var manufacturers = ProcessManufacturers("Resources\\Files\\manufacturers.csv");
 
         var carsInCountry = cars.Join(
             manufacturers,
@@ -133,7 +83,7 @@ public class App : IApp
 
     private void CreateNumberOfCarModelsByBrandXml()
     {
-        var records = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
+        var records = ProcessCars("Resources\\Files\\fuel.csv");
 
         var document = new XDocument();
 
@@ -148,7 +98,7 @@ public class App : IApp
         document.Save("Resources\\Files\\fuelNumberOfCarModelsByBrand.xml");
     }
 
-    public static void QeryBmwXml()
+    private static void QeryBmwXml() 
     {
         var document = XDocument.Load("Resources\\Files\\fuelNumberOfCarModelsByBrand.xml");
         var names = document
@@ -165,10 +115,10 @@ public class App : IApp
             }
         }
     }
-
+   
     private void CreateNoAttributesXml()
     {
-        var records = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
+        var records = ProcessCars("Resources\\Files\\fuel.csv");
 
         var document = new XDocument();
 
@@ -184,7 +134,7 @@ public class App : IApp
 
     private void CreateFuelXml()
     {
-        var records = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
+        var records = ProcessCars("Resources\\Files\\fuel.csv");
 
         var document = new XDocument();
 
@@ -206,8 +156,8 @@ public class App : IApp
 
     private void CreateNoAttributesSchematXml()
     {
-        var cars = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
-        var manufacturers = _csvReader.ProcessManufacturers("Resources\\Files\\manufacturers.csv");
+        var cars = ProcessCars("Resources\\Files\\fuel.csv");
+        var manufacturers = ProcessManufacturers("Resources\\Files\\manufacturers.csv");
 
         var document = new XDocument();
 
