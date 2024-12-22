@@ -1,10 +1,8 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
-using PerondaApp.Components.CsvReader;
+﻿using PerondaApp.Components.CsvReader;
 using PerondaApp.Components.CsvReader.Extensions;
 using PerondaApp.Components.DataProviders;
 using PerondaApp.Data;
 using PerondaApp.Data.Entities;
-//using Car = PerondaApp.Data.Entities.Car;
 
 namespace PerondaApp.Services;
 
@@ -29,45 +27,35 @@ public class App : UserCommunicationBase, IApp
 
     public void Run()
     {
-        //Console.Write($"\n               Add new  Car  to the list\n" +
-        //     " Please enter details  :\n   model name:  ", ConsoleColor.Blue);
-        //var item = Console.ReadLine(); //ReadFirst("Mój samochód Add")!;
-        //item.Name = Console.ReadLine();
-        //item.Manufacturer = GetInputWrite(" model producent :").ToUpper();
-        //Console.WriteLine($"   new model name:  {item.Name}");
-
         IntroAutoMotoText();
         Console.ReadKey();
         bool Exit = false;
         while (!Exit)
         {
-            WritelineColor($"\n  S_ Statistic, V_ View All Cars, G_ View Grouped Cars, N_Find By Name, E_ Edit, U_ User Options\n\t\t\t\tX_ EXIT", ConsoleColor.DarkGreen);
+            WritelineColor($"\n  S_ Statistic, V_ View All Cars, G_ View Grouped Cars, N_Find By Name, M_Find More, E_ Edit, U_ User Options\n\t\t\t\tX_ EXIT", ConsoleColor.DarkGreen);
             ConsoleKeyInfo key = Console.ReadKey();
             switch (key.Key)
             {
                 case ConsoleKey.S:
-                    ViewStatisticalSummariesFrom2016(); // ok
+                    ViewStatisticalSummariesFrom2016(); 
                     break;
                 case ConsoleKey.N:
-                    FindByName(); // ok  WritelineColor($"\n   Press  E_ Edit options >>\n", ConsoleColor.DarkYellow); EditData();
-                    break;
-                case ConsoleKey.C:
-                    AddByCopyName(); // ok    EditData();
+                    FindByName(); 
                     break;
                 case ConsoleKey.V:
-                    ViewAllCars(); // ok
+                    ViewAllCars(); 
                      break;
-                case ConsoleKey.A:
+                case ConsoleKey.E:
                     EditCarDataaToDbContext();
                     break;
                 case ConsoleKey.G:
-                    ViewUniqueCarNames();//AddByCopyNameEdit();//ViewGroupedCarsFromDb();
+                    ViewGroupedCarsFromDb();
                     break;
                 case ConsoleKey.M:
                     SearchCarsByCriteria();
                     break;
                 case ConsoleKey.U:
-                    _userCommunication.SelectSection(); // spoko
+                    _userCommunication.SelectSection();
                     break;
                 case ConsoleKey.X:
                     Environment.Exit(0);
@@ -78,83 +66,12 @@ public class App : UserCommunicationBase, IApp
             }
         }
         Console.WriteLine("  ~~ closing the program ~~ press any key to leave");
-        Console.ReadKey(); /*
-        FindByName();
-        var carsFromDb = _perondaAppDbContext.Cars.ToList();
-        var input = GetInputFromUser("   edit data >>  Search what you want Change ").ToUpper();
-        foreach (var carFromDb in carsFromDb)
-        {
-            _perondaAppDbContext.Cars.FirstOrDefault(c => c.Name == name);
-        }
-
-
-        WritelineColor($" ___entered data:\n\t car model: {Name}\n\t     brand: {manufacturer}   {year} comb.: {combined} {city} {displacement} {cylinders} {highway}\n", ConsoleColor.Cyan);
-        //var input = GetInputFromUser("   edit data >>  C_ Create, R_ Read, U_ Update, D_ Delete, ");
-        bool closeEdit = false;
-        while (!closeEdit)
-        {
-            var input = GetInputFromUser("   edit data >>  C_ Create, R_ Read, U_ Update, D_ Delete, ").ToUpper();
-            if (input == "C")
-            {
-                foreach (var car in cars)
-                {
-                    _perondaAppDbContext.Cars.Add(new()
-                    {
-                        Name = car.Name,
-                        Manufacturer = car.Manufacturer,
-                        Displacement = car.Displacement,
-                        City = car.City,
-                        Year = car.Year,
-                        Combined = car.Combined,
-                        Highway = car.Highway,
-                        Cylinders = car.Cylinders,
-                    });
-                }
-                _perondaAppDbContext.Cars.Add(item);
-                _perondaAppDbContext.SaveChanges();
-                break;
-            }
-            if (input == "R")
-            {
-                WritelineColor($"____entered data:\t brand {manufacturer}  car model {Name}   {year} comb.: {combined} {city} {displacement} {cylinders} {highway}\n", ConsoleColor.Cyan);
-
-                if (input == "RR") { ViewGroupedCarsFromDb(); }
-                if (input == "RRR") { _userCommunication.SelectSection(); }
-            }
-            if (input == "U") { _perondaAppDbContext.SaveChanges(); }
-            if (input == "D") { _perondaAppDbContext.Cars.Remove(item); _perondaAppDbContext.SaveChanges(); }
-            if (input == "H") { Run(); }
-        }
-
-
-
-        //if (input == "C")
-        //{
-        //    carRepository.Add(item);
-        //    carRepository.Save();
-        //}
-        //if (input == "C") { if (input == "A") { item.Copy(); item.Id = 0; } _perondaAppDbContext.Cars.Add(item); _perondaAppDbContext.SaveChanges(); }
-        if (input == "C") { item.Copy(); item.Id = 0; _perondaAppDbContext.Cars.Add(item); _perondaAppDbContext.SaveChanges(); }
-        if (input == "R") { ViewGroupedCarsFromDb(); }
-        if (input == "U") { _perondaAppDbContext.SaveChanges(); }
-        if (input == "D") { _perondaAppDbContext.Cars.Remove(item); _perondaAppDbContext.SaveChanges(); }
-
-        InsertCarData();
-        InsertManufacturerData();
-        ReadAllCars();
-        ReadGroupedCarsFromDb();
-        ViewGroupedCarsFromDb();
-        EditCarNameFromDb();
-        LoadSampleTiles();
-        LoadManufacturerData();
-        LoadCarData();
-        _userCommunication.SelectSection(); 
-        */
+        Console.ReadKey(); 
     }
 
     public void SearchCarsByCriteria()
     {
-        Console.WriteLine("\n\t1 View All Car Models\t"); // WhereStartsWith(string prefix)
+        Console.WriteLine("\n\t1 View All Car Models\t\n\t2 View All Car Models\t\n\t3 View All Car Models\t\n\t4 View All Car Models\t");
 
 
         ConsoleKeyInfo key = Console.ReadKey();
@@ -208,7 +125,7 @@ public class App : UserCommunicationBase, IApp
     {
         foreach (var car in _carProvider.DistinctByProducerOrdrByCombined())
         {
-            Console.WriteLine($"======<  {car.Manufacturer}  >=======\n\tcombined {car.Combined}\n\t\t\t => car model: {car.Name}");
+            Console.WriteLine($"=== combined {car.Combined} ==<  {car.Manufacturer}  >=======\n\t\t => car model: {car.Name}\n");
         }
     }
 
@@ -227,38 +144,7 @@ public class App : UserCommunicationBase, IApp
 
     private Car? FindId2(int id) => _perondaAppDbContext.Cars.SingleOrDefault(x => x.Id == id);
 
-    public void EditData()
-    {
-         FindByName(); // "Cayman" !!
-        bool editChoice = false;
-        while (!editChoice)
-        {
-            var optionEdit = GetInputWrite("   edit data >>\n\tC_ Create, R_ Read, U_ Update, D_ Delete, P_ Paste\n").ToUpper();
-            //if (optionEdit == "C") { AddToDb();}//InseratCarDetails(); _perondaAppDbContext.Add(car); _perondaAppDbContext.SaveChanges(); }
-            //if (optionEdit == "R") { Console.WriteLine($"  {car}"); } 
-            //if (optionEdit == "DD") { _perondaAppDbContext.Cars.Remove(item); _perondaAppDbContext.SaveChanges(); }
-            if (optionEdit == "U") { _perondaAppDbContext.SaveChanges(); }
-            if (optionEdit == "D") { _perondaAppDbContext.Cars.Add(new Car()); _perondaAppDbContext.SaveChanges(); }
-            //if (optionEdit == "D") { _perondaAppDbContext.Cars.Remove(); _perondaAppDbContext.SaveChanges(); }
-            if (optionEdit == "P") { AddByCopyName(); }
-            if (optionEdit == "H") { Run(); }
-        }
-        //    var optionEdit = GetInputWrite("   edit data >>  C_ Create, R_ Read, U_ Update, D_ Delete, ").ToUpper();
-        //if (optionEdit == "C") { _perondaAppDbContext.Cars.Add(new Car()); _perondaAppDbContext.SaveChanges(); }
-        //if (optionEdit == "R") { Console.WriteLine($"  {car}"); }
-        //if (optionEdit == "U") { _perondaAppDbContext.SaveChanges(); }
-        //if (optionEdit == "D") { _perondaAppDbContext.Cars.Remove(new Car()); _perondaAppDbContext.SaveChanges(); }
-    }
-
-    private void AddToDb()
-    {
-        var name = ReadFirst("Cayman"); // <- (" ") wyrzuca błąd
-        name!.Name = "Cayman";
-        _perondaAppDbContext.Add(name!);
-        _perondaAppDbContext.SaveChanges();
-    }
-
-    public void EditCarDataaToDbContext() // sprawdzam
+    public void EditCarDataaToDbContext() 
     {
         WritelineColor($"\n\t\t\t [[__ Add new  Car  to the list __]]\n" +
              " Please enter details  :", ConsoleColor.DarkCyan);
@@ -276,73 +162,10 @@ public class App : UserCommunicationBase, IApp
             Combined = int.Parse(GetInputWrite("     combined:  "))
         };
         WritelineColor($"____entered data:\tbrand {car!.Manufacturer}  car model {car.Name}   \n", ConsoleColor.Cyan);
-        //InseratCarDetails2();
-        //_perondaAppDbContext.Cars.Add(new Car()
-        //{
-        //    Year = car.Year,
-        //    Manufacturer = car.Manufacturer,
-        //    Name = car.Name,
-        //    Displacement = car.Displacement,
-        //    Cylinders = car.Cylinders,
-        //    City = car.City,
-        //    Highway = car.Highway,
-        //    Combined = car.Combined,
-        //});
-
-        //new Car() = InseratCarDetails();
-
-
-        //_perondaAppDbContext.Cars.Add(new Car());
         _perondaAppDbContext.SaveChanges();
     }
 
-    private void AddByCopyNameEdit() //ok copy
-    {
-        WritelineColor($"\n\t\t\t [[__ Add  By  Copy __]]\n", ConsoleColor.DarkCyan);
-        string name = GetInputWrite(" Enter model name to find:  ");
-        var car = ReadFirst(name);
-
-        WritelineColor($"____entered data:\tbrand {car!.Manufacturer}  car model {car.Name}   \n", ConsoleColor.Cyan);
-        //InseratCarDetails2();
-        var optionEdit = GetInputWrite("   edit data >>  C_ Create, R_ Read All Details, U_ Update, D_ Delete, ").ToUpper();
-        if (optionEdit == "C")
-        {
-            Console.WriteLine($"\tCopied model car :\n {car}");
-            //InseratCarDetails();
-            _perondaAppDbContext.Cars.Add(new Car()
-            {
-                Year = car.Year,
-                Manufacturer = car.Manufacturer,
-                Name = car.Name,
-                Displacement = car.Displacement,
-                Cylinders = car.Cylinders,
-                City = car.City,
-                Highway = car.Highway,
-                Combined = car.Combined,
-            });
-            InseratCarDetails();
-            _perondaAppDbContext.SaveChanges();
-        }
-        if (optionEdit == "R")
-        {
-            WritelineColor($"\t\t found model car :\n  {car}\n", ConsoleColor.Cyan);
-        }
-        if (optionEdit == "U")
-        {
-            InseratCarDetails2();
-            _perondaAppDbContext.SaveChanges();
-        }
-        if (optionEdit == "D")
-        {
-            _perondaAppDbContext.Cars.Remove(car); _perondaAppDbContext.SaveChanges();
-        }
-        if (optionEdit == "X")
-        {
-            Run();
-        }
-    }
-
-    public void InsertCarData() //ok
+    public void InsertCarData() 
     {
         var cars = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
         foreach (var car in cars)
@@ -416,65 +239,15 @@ public class App : UserCommunicationBase, IApp
         }
     }
 
-    private void AddByCopyName()
-    {
-        WritelineColor($"\n\t\t\t [[__  A D D   C O P Y  __]]\n", ConsoleColor.DarkCyan);
-        string name = GetInputWrite(" Enter model name to copy:  ");
-        var car = ReadFirst(name);
-
-        WritelineColor($"\t found model car :", ConsoleColor.DarkGray);
-        WritelineColor($"  {car}\n", ConsoleColor.Cyan);
-
-        _perondaAppDbContext.Cars.Add(new Car()  // chyba zły kod w tym miejscu
-        {
-            Year = car!.Year,
-            Manufacturer = car.Manufacturer,
-            Name = car.Name,
-            Displacement = car.Displacement,
-            Cylinders = car.Cylinders,
-            City = car.City,
-            Highway = car.Highway,
-            Combined = car.Combined,
-        });
-
-        var userChoice = GetInputFromUser("  Enter C_ to confirm COPY, press any to leave").ToUpper();
-        if (userChoice == "C") { _perondaAppDbContext.SaveChanges(); }
-
-        WritelineColor($"\t Added a copy to the car list:", ConsoleColor.DarkGray);
-        Console.WriteLine($"  {car}\n"); 
-    }
-
-    private void AddToDb2()
-    {
-        var name = ReadFirst("Cayman");
-        name!.Name = "Cayman";
-        _perondaAppDbContext.Add(name!);
-        _perondaAppDbContext.SaveChanges();
-    }
-
-    private void RemoveCarByNameFromDb()
-    {
-        var cayman = ReadFirst("Mój samochód");
-        _perondaAppDbContext.Cars.Remove(cayman!);
-        _perondaAppDbContext.SaveChanges();
-    }
-
-    private void RenameCarNameFromDb()
-    {
-        var cayman = ReadFirst("Cayman");
-        cayman!.Name = "Mój samochód";
-        _perondaAppDbContext.SaveChanges();
-    }
-
     private Car? ReadFirst(string name)
     {
         return _perondaAppDbContext.Cars.FirstOrDefault(c => c.Name == name);
     }
 
-    private void ViewGroupedCarsFromDb() // qery -> groups
+    private void ViewGroupedCarsFromDb()
     {
         var groups = _perondaAppDbContext
-            .Cars.GroupBy(x => x.Manufacturer) // całe LINQ
+            .Cars.GroupBy(x => x.Manufacturer) 
             .Select(x => new
             {
                 Name = x.Key,
@@ -494,33 +267,13 @@ public class App : UserCommunicationBase, IApp
         }
     }
 
-    private void ReadGroupedCarsFromDb()
-    {
-        var qery = _perondaAppDbContext        // IQeryable
-            .Cars.GroupBy(x => x.Manufacturer)
-            .Select(x => new
-            {
-                Name = x.Key,
-                Cars = x.ToList()
-            })
-            .ToList();
-    }
-
     private void ViewAllCars()
     {
         WritelineColor($"\t\t\t [[__ View All Cars __]]\n", ConsoleColor.DarkCyan);
-        var carsFromDb = _perondaAppDbContext.Cars.ToList();// <-- strzał po dane 
+        var carsFromDb = _perondaAppDbContext.Cars.ToList();
         foreach (var carFromDb in carsFromDb)
         {
             Console.WriteLine($"\n  {carFromDb}");
         }
-    }
-
-    private void ReadAllCars()
-    {
-        //var carsFromDb = _perondaAppDbContext.Cars;   // odczyt <- wchodzi tylko DbSet
-        // tu jest miejsce do Qery - zapytań i filtrowania
-
-        var carsFromDb = _perondaAppDbContext.Cars.ToList();// <-- strzał po dane  
     }
 }

@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using PerondaApp.Components.CsvReader.Extensions;
+﻿using PerondaApp.Components.CsvReader.Extensions;
 using PerondaApp.Data;
 using PerondaApp.Data.Entities;
 using PerondaApp.Data.Repositories;
@@ -12,18 +11,15 @@ public class UserCommunication : UserCommunicationBase, IUserCommunication
     private readonly PerondaAppDbContext _perondaAppDbContext;
     private readonly IRepository<Car> _carRepository;
     private readonly IRepository<Manufacturer> _manufacturerRepository;
-    //private readonly ICarProvider<Car> _carProvider;
 
     public UserCommunication(ICsvReader csvReader,
         PerondaAppDbContext perondaAppDbContext,
         IRepository<Car> carRepository,
         IRepository<Manufacturer> manufacturerRepository)
-        //ICarProvider<Car> carProvider,)
     {
         _perondaAppDbContext = perondaAppDbContext;
         _carRepository = carRepository;
         _manufacturerRepository = manufacturerRepository;
-        //_carProvider = carProvider;
     }
 
     public void SelectSection()
@@ -49,27 +45,6 @@ public class UserCommunication : UserCommunicationBase, IUserCommunication
             }
         }
     }
-    /*
-     Microsoft.EntityFrameworkCore.DbUpdateException: „An error occurred while saving the entity changes. See the inner exception for details.”
-
-SqlException: Cannot insert explicit value for identity column in table 'Cars' when IDENTITY_INSERT is set to OFF.
-
-IDENTITY
-Ten wyjątek został pierwotnie zgłoszony w tym stosie wywołań:
-    Microsoft.Data.SqlClient.SqlConnection.OnError(Microsoft.Data.SqlClient.SqlException, bool, System.Action<System.Action>)
-    Microsoft.Data.SqlClient.SqlInternalConnection.OnError(Microsoft.Data.SqlClient.SqlException, bool, System.Action<System.Action>)
-    Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(Microsoft.Data.SqlClient.TdsParserStateObject, bool, bool)
-    Microsoft.Data.SqlClient.TdsParser.TryRun(Microsoft.Data.SqlClient.RunBehavior, Microsoft.Data.SqlClient.SqlCommand, Microsoft.Data.SqlClient.SqlDataReader, Microsoft.Data.SqlClient.BulkCopySimpleResultSet, Microsoft.Data.SqlClient.TdsParserStateObject, out bool)
-    Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
-    Microsoft.Data.SqlClient.SqlDataReader.MetaData.get()
-    Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(Microsoft.Data.SqlClient.SqlDataReader, Microsoft.Data.SqlClient.RunBehavior, string, bool, bool, bool)
-    Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(System.Data.CommandBehavior, Microsoft.Data.SqlClient.RunBehavior, bool, bool, int, out System.Threading.Tasks.Task, bool, bool, Microsoft.Data.SqlClient.SqlDataReader, bool)
-    Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(System.Data.CommandBehavior, Microsoft.Data.SqlClient.RunBehavior, bool, System.Threading.Tasks.TaskCompletionSource<object>, int, out System.Threading.Tasks.Task, out bool, bool, bool, string)
-    Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(System.Data.CommandBehavior, Microsoft.Data.SqlClient.RunBehavior, bool, string)
-    ...
-    [Obcięto stos wywołań]
-
-    */
 
     public void CrudOptions<T>(IRepository<T> repository) where T : class, IEntity
     {
@@ -152,29 +127,13 @@ Ten wyjątek został pierwotnie zgłoszony w tym stosie wywołań:
                 WritelineColor("\n   [_____ u p d a t e   c o m p l i t e d _____]\n", ConsoleColor.DarkYellow);
                 WritelineColor($"____entered data:", ConsoleColor.DarkGray);
                     Console.WriteLine($"\t\t{newName}\t{newProducer}  {outputNewValue}");
-                    WritelineColor($"  Press M  _More fields to Update", ConsoleColor.Green); //_perondaAppDbContext.SaveChanges();
+                    WritelineColor($"  Press M  _More fields to Update", ConsoleColor.Green); 
             }
-            if (optionEdit == "D") { _carRepository.Remove(item); } //_perondaAppDbContext.Cars.Remove(item); _perondaAppDbContext.SaveChanges(); }
+            if (optionEdit == "D") { _carRepository.Remove(item); } 
             if (optionEdit == "M") { SelectFieldToChangeCarData(); break; }
             if (optionEdit == "A") { AddNewCar(); }
             if (optionEdit == "X") { break; }
         }
-        //SaveText();
-        //ConsoleKeyInfo key = Console.ReadKey();
-        //switch (key.Key)
-        //{
-        //    case ConsoleKey.S:
-        //        WritelineColor("\n   [_____ u p d a t e   c o m p l i t e d _____]\n", ConsoleColor.DarkYellow);
-        //        _carRepository.Save();
-        //        break;
-        //    case ConsoleKey.M:
-        //        SelectFieldToChangeCarData();
-        //        break;
-        //    case ConsoleKey.Escape:
-        //        closeOptions = true;
-        //        break;
-
-        //}
         return item!.Name!;
     }
 
@@ -203,59 +162,59 @@ Ten wyjątek został pierwotnie zgłoszony w tym stosie wywołań:
     public static T? FindItemByOptions<T>(IRepository<T> repository) where T : class, IEntity
     {
         WritelineColor("  [___ Find Options ___]", ConsoleColor.DarkGray);
+        //var itemFound = repository.FindItemByName();
+        //var item = itemFound;
+        //if (itemFound == null) { repository.FindItemById(); return item; }
+        //WritelineColor("\n  Find  N _Name\t Find  I _Id    Esc - return\n", ConsoleColor.DarkGray);
+        //ConsoleKeyInfo key = Console.ReadKey();
+        //switch (key.Key)
+        //{
+        //    case ConsoleKey.Escape:
+        //        break;
+        //    case ConsoleKey.N:
+        //        repository.FindItemByName(); //return itemFound;
+        //        break;
+        //    case ConsoleKey.I:
+        //        repository.FindItemById(); //return itemId;
+        //        break;
+        //    default:
+        //        WritelineColor($"\n      Invalid operation.\n", ConsoleColor.Red);
+        //        break;
+        //}
+        //return item;
+        bool closeFind = false;
+        while (!closeFind)
+        {
+            WritelineColor("\t\t\tN _Find Name  I _Find Id   > Esc - return", ConsoleColor.DarkGray);
+            ConsoleKeyInfo key = Console.ReadKey();
+            switch (key.Key)
+            {
+                case ConsoleKey.Escape:
+                    closeFind = true;
+                    break;
+                case ConsoleKey.N:
+                    repository.FindItemByName(); 
+                    break;
+                case ConsoleKey.I:
+                    repository.FindItemById(); 
+                    break;
+                default:
+                    WritelineColor($"\n      Invalid operation.\n", ConsoleColor.Red);
+                    break;
+            }
+        }
         var itemFound = repository.FindItemByName();
         var item = itemFound;
-        if (itemFound == null) { repository.FindItemById(); return item; }
-        WritelineColor("\n  Find  N _Name\t Find  I _Id    Esc - return\n", ConsoleColor.DarkGray);
-        ConsoleKeyInfo key = Console.ReadKey();
-        switch (key.Key)
-        {
-            case ConsoleKey.Escape:
-                break;
-            case ConsoleKey.N:
-                repository.FindItemByName(); //return itemFound;
-                break;
-            case ConsoleKey.I:
-                repository.FindItemById(); //return itemId;
-                break;
-            default:
-                WritelineColor($"\n      Invalid operation.\n", ConsoleColor.Red);
-                break;
-        }
+        if (itemFound == null) { repository.FindItemById(); }
         return item;
-        //bool closeFind = false;
-        //while(!closeFind)
-        //{
-        //    WritelineColor("\t\t\tN _Find Name  I _Find Id   > Esc - return", ConsoleColor.DarkGray);
-        //    ConsoleKeyInfo key = Console.ReadKey();
-        //    switch (key.Key)
-        //    {
-        //        case ConsoleKey.Escape:
-        //            closeFind = true;
-        //            break;
-        //        case ConsoleKey.N:
-        //            FindItemByName(repository); //return itemFound;
-        //            break;
-        //        case ConsoleKey.I:
-        //            FindItemById(repository); //return itemId;
-        //            break;
-        //        default:
-        //            WritelineColor($"\n      Invalid operation.\n", ConsoleColor.Red);
-        //            break;
-        //    }
-        //}
-        //var itemFound = FindItemByName(repository);
-        //var item = itemFound;
-        //if (itemFound == null) { FindItemById(repository); }
-        //return item;
     }
 
     public void SelectFieldToChangeCarData()
     {
         WritelineColor("\t\t[[__ U P D A T A __]]\n", ConsoleColor.DarkCyan);
-        //var car = FindItemByOptions(_carRepository);
-        string name = GetInputWrite(" Enter model name to find:  ");
-        var car = ReadFirstName(name);
+        var car = FindItemByOptions(_carRepository);
+        //string name = GetInputWrite(" Enter model name to find:  ");
+        //var car = ReadFirstName(name);
         bool closeUpdata = false;
         while (!closeUpdata)
         {
@@ -265,7 +224,8 @@ Ten wyjątek został pierwotnie zgłoszony w tym stosie wywołań:
             {
                 case ConsoleKey.N:
                     var newName = GetInputWrite("   model name:  ");
-                    if (newName == "") { car!.Name = name; } else { car!.Name = newName; }
+                    car!.Name = newName;
+                    //if (newName == "") { car!.Name = name; } else { car!.Name = newName; }
                     break;
                 case ConsoleKey.M:
                     var manufacturer = GetInputWrite(" manufacturer:  ");
@@ -322,82 +282,6 @@ Ten wyjątek został pierwotnie zgłoszony w tym stosie wywołań:
             {
                 return;
             }
-
-            //switch (key.Key)
-            //{
-            //    case ConsoleKey.S:
-            //        _carRepository.Save();
-            //        WritelineColor("\t [____ u p d a t e   c o m p l i t e d ____]\n", ConsoleColor.DarkYellow);
-            //        WritelineColor("  " + car, ConsoleColor.DarkGray);
-            //        return;
-            //    case ConsoleKey.Enter:
-            //        continue;
-            //    case ConsoleKey.Escape:
-            //        return;
-            //}
         }
-        //do
-        //{
-        //    //var car = FindItemByOptions(_carRepository);
-        //    WritelineColor("  Fields for changing data :\n\tN _Name\tM _Manufacturer\tC _City\t  F1_ Combined\n\tY _Year\tD _Displacement\t H _Highway\tF2_ Cylinders\n", ConsoleColor.DarkGray);
-        //    ConsoleKeyInfo key = Console.ReadKey();
-        //    switch (key.Key)
-        //    {
-        //        case ConsoleKey.N:
-        //            var name = GetInputWrite("   model name:  ");
-        //            car!.Name = name;
-        //            break;
-        //        case ConsoleKey.M:
-        //            var manufacturer = GetInputWrite(" manufacturer:  ");
-        //            car!.Manufacturer = manufacturer;
-        //            break;
-        //        case ConsoleKey.D:
-        //            //var displacement = double.Parse(GetInputWrite(" displacement:  "));
-        //            //car!.Displacement = displacement;
-        //            double oldDisp = car!.Displacement;
-        //            var doubleDisp = GetInputWrite(" displacement:  ");
-        //            var isParsed = double.TryParse(doubleDisp, out double outputNewValue);
-        //            if (!isParsed) { car.Displacement = oldDisp; }
-        //            if (isParsed) { car.Displacement = outputNewValue; }
-        //            break;
-        //        case ConsoleKey.C:
-        //            var city = int.Parse(GetInputWrite("         city:  "));
-        //            car!.City = city;
-        //            break;
-        //        case ConsoleKey.Y:
-        //            var year = int.Parse(GetInputWrite("         year:  "));
-        //            car!.Year = year;
-        //            break;
-        //        case ConsoleKey.H:
-        //            var highway = int.Parse(GetInputWrite("      highway:  "));
-        //            car!.Highway = highway;
-        //            break;
-        //        case ConsoleKey.F1:
-        //            var combined = int.Parse(GetInputWrite("     combined:  "));
-        //            car!.Combined = combined;
-        //            break;
-        //        case ConsoleKey.F2:
-        //            var cylinders = int.Parse(GetInputWrite("    cylinders:  "));
-        //            car!.Cylinders = cylinders;
-        //            break;
-        //        default:
-        //            WritelineColor($"\n      Invalid operation.\n", ConsoleColor.Red);
-        //            break;
-        //    }
-        //    SaveText();
-        //switch (key.Key)
-        //{
-        //    case ConsoleKey.S:
-        //        _carRepository.Save();
-        //        WritelineColor("\t [____ u p d a t a   c o m p l i t e d ____]\n", ConsoleColor.DarkYellow);
-        //        WritelineColor("  " + car, ConsoleColor.DarkGray);
-        //        return;
-        //    case ConsoleKey.Enter:
-        //        continue;
-        //    case ConsoleKey.Escape:
-        //        return;
-        //}
-        //}
-        //while (true);
     }
 }
