@@ -1,4 +1,4 @@
-﻿using PerondaApp.Data.Components.DataProviders;
+﻿using PerondaApp.Components.DataProviders;
 
 namespace PerondaApp.Services;
 

@@ -1,4 +1,4 @@
-﻿using PerondaApp.Entities;
+﻿using PerondaApp.Data.Entities;
 
 namespace PerondaApp.Resources;
 

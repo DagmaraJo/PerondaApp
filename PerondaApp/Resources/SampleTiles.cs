@@ -56,7 +56,7 @@ public class SampleTiles
             _tileRepository.Save();
         }
     */
-    
+
     public static List<Tile> GenerateSampleTiles()
     {
         return new List<Tile>
